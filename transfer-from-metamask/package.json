@@ -9,8 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chainlink/contracts": "^0.5.1",
+    "bulma": "^0.9.4",
+    "erc-20-abi": "^1.0.0",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.5",
+    "ethers": "^5.7.2",
     "next": "13.0.5",
     "react": "18.2.0",
     "react-dom": "18.2.0"
