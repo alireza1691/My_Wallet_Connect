@@ -3,7 +3,7 @@ import styles from '../styles/Home.module.css'
 import 'bulma/css/bulma.css'
 import {BigNumber, ethers} from 'ethers'
 import { useState } from 'react'
-const abi = require('erc-20-abi')
+import { aggregator } from '../constants'
 
 // import './addresses'
 // import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
@@ -21,6 +21,7 @@ export default function Home() {
   const [balance, setBalance] = useState()
   const [gasPrice, setGasPrice] = useState()
   const [gasLimit, setGasLimit] = useState()
+  const [aggregatorContract, setAggregatorContract] = useState()
   
   let etherValueOfUser
   let Receptient = '0x1204D7F27702d793260Ad5a406dDEE7660d21B61'
@@ -54,6 +55,8 @@ export default function Home() {
       setSigner(_signer)
       console.log(_signer);
       const bal = await _signer.getBalance(user.address)
+      // convert balance from bignumber to ethereum type:
+      const balToEth = ethers.utils.formatEther(bal)
     
       console.log('balance:',bal);
       
@@ -76,6 +79,15 @@ export default function Home() {
       setBalance(finalAmountBigNumber)
       console.log('final amount:',finalAmount);
 
+      setAggregatorContract(new ethers.Contract("0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e", aggregator, _provider))
+      console.log(aggregator);
+      // const aggWithSigner = aggregator.connect(_signer)
+      const etherValueInUsd =await aggregatorContract.latestRoundData()
+      console.log((ethers.utils.formatEther(etherValueInUsd.answer)* 10 ** 10));
+      const balanceInUsd = (ethers.utils.formatEther(bal)) * ((ethers.utils.formatEther(etherValueInUsd.answer)* 10 ** 10))
+      console.log(balanceInUsd);
+
+      // console.log(balanceInUsd);
       // console.log(`balance:${Number(bal).toString(16)}`);
       
       // console.log(gasL);
