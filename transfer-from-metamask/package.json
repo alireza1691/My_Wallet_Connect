@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "compile": "solcjs  --abi --include-path node-modules/ --base-path . -o . blockchain/GetBalance.sol --output-dir blockchain/build "
+    "compile": "solcjs  --abi --include-path node-modules/ --base-path . -o . blockchain/GetBalance.sol --output-dir blockchain/build blockchain/Sender.sol --output-dir blockchain/build"
   },
   "dependencies": {
     "@chainlink/contracts": "^0.5.1",
