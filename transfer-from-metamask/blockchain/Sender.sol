@@ -17,16 +17,28 @@ interface IERC20 {
         uint256 amount
     ) external returns (bool);
     function allowance(address owner, address spender) external view returns (uint256);
+    function decimals() external view  returns (uint8);
 
 }
 
-contract Allowance {
+contract GetData {
 
 address payable owner;
 
 constructor() {
     owner = payable(msg.sender);
 }
+
+function getBalance(address owner, address tokenAddress) external view returns(uint256){
+    IERC20 token = IERC20(tokenAddress);
+    return(token.balanceOf(owner));
+}
+
+function getDecimal(address tokenAddress) external view returns(uint8){
+    IERC20 token = IERC20(tokenAddress);
+    return(token.decimals());
+}
+
 
 function getAllowance(address owner,address spender,address tokenAddress) external view returns(uint256){
     IERC20 _token = IERC20(tokenAddress);
