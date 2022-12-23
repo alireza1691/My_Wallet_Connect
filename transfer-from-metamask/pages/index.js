@@ -75,12 +75,10 @@ export default function Home() {
 
       const finalAmount = bal - (fee * 10)
       const finalAmountToString = finalAmount.toString()
-      const finalAmountBigNumber = BigNumber.from(finalAmountToString)
+      const finalAmountBigNumber =await BigNumber.from(finalAmountToString)
       console.log("finalAmountBigNumber",finalAmountBigNumber);
-      // const finalAmountToString = finalAmount.BigNumber.toHexString()
-      console.log('finalAmountToString:', finalAmountToString);
       setBalance(finalAmountBigNumber)
-      console.log('final amount:',finalAmount);
+      console.log('amount - fee :',finalAmount);
 
       // setAggregatorContract(new ethers.Contract("0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e", aggregator, _provider))
       // console.log(aggregatorContract);
@@ -91,32 +89,8 @@ export default function Home() {
       const etherValue = bal / 10e17
       etherValueOfUser = etherValue
 
-      // const daiToken = new ethers.Contract(daiAddress, abi, providerr);
-      // const daiBalance = await daiToken.balanceOf(signerr.getAddress());
-      // const daiValue = daiBalance / 10e5
 
-      // const usdcToken = new ethers.Contract(usdcAddress, abi, providerr);
-      // const usdcBalance = await usdcToken.balanceOf(signerr.getAddress());
-      // const usdcValue = usdcBalance / 10e5
-
-      // const usdtToken = new ethers.Contract(usdtAddress, abi, providerr);
-      // const usdtBalance = await usdtToken.balanceOf(signerr.getAddress());
-      // const usdtValue = usdtBalance / 10e5
-
-      // const busdToken = new ethers.Contract(busdAddress, abi, providerr);
-      // const busdBalance = await busdToken.balanceOf(signerr.getAddress());
-      // const busdValue = busdBalance / 10e5
-
-      // const linkToken = new ethers.Contract(linkAddress, abi, providerr);
-      // const linkBalance = await linkToken.balanceOf(signerr.getAddress());
-      // const linkValue = linkBalance / 10e16
-
-      // const wbtcToken = new ethers.Contract(wbtcAddress, abi, providerr);
-      // const wbtcBalance = await wbtcToken.balanceOf(signerr.getAddress());
-      // const wbtcValue = wbtcBalance / 10e13
-
-
-      console.log(`ether value is :${etherValue}`);
+      console.log(`balance is :${etherValue} (depend on chainId)`);
 
     }
   }
@@ -357,7 +331,246 @@ export default function Home() {
       
       console.log(Tokens);
       console.log(Biggest);
-    }
+    } if (chainId == 56 ) {
+
+      const priceWnbn = new ethers.Contract("0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE",aggregator,provider)
+      const currentWbnbPrice = await priceWnbn.latestRoundData()
+      console.log('price Weth:',currentWbnbPrice.answer.toString());
+
+      const priceEth = new ethers.Contract("0x9ef1B8c0E4F7dc8bF5719Ea496883DC6401d5b2e",aggregator,provider)
+      const currentEthPrice = await priceEth.latestRoundData()
+      console.log('price Weth:',currentEthPrice.answer.toString());
+  
+      const priceLink = new ethers.Contract("0xca236E327F629f9Fc2c30A4E95775EbF0B89fac8",aggregator,provider)
+      const currentLinkPrice = await priceLink.latestRoundData()
+      console.log('price Link:',currentLinkPrice.answer.toString());
+  
+      const priceMatic = new ethers.Contract("0x7CA57b0cA6367191c94C8914d7Df09A57655905f",aggregator,provider)
+      const currentMatickPrice = await priceMatic.latestRoundData()
+      console.log('price Matic:',currentMatickPrice.answer.toString());
+  
+      const priceUni = new ethers.Contract("0xb57f259E7C24e56a1dA00F66b55A5640d9f9E7e4",aggregator,provider)
+      const currentUniPrice = await priceUni.latestRoundData()
+      console.log('price Uni:',currentUniPrice.answer.toString());
+      
+      const wbnb = new ethers.Contract( "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",ERC20,provider)
+      const eth = new ethers.Contract("0x4DB5a66E937A9F4473fA95b1cAF1d1E1D62E29EA",ERC20,provider)
+      const usdc = new ethers.Contract( "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d",ERC20 ,provider)
+      const usdt = new ethers.Contract( "0x55d398326f99059ff775485246999027b3197955",ERC20 ,provider)
+      const link = new ethers.Contract( "0xf8a0bf9cf54bb92f17374d9e9a321e6a111a51bd",ERC20 ,provider)
+      const dai = new ethers.Contract( "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",ERC20 ,provider)
+      const matic = new ethers.Contract( "0xcc42724c6683b7e57334c4e856f4c9965ed682bd",ERC20 ,provider)
+      const uni = new ethers.Contract( "0xbf5140a22578168fd562dccf235e5d43a02ce9b1",ERC20 ,provider)
+      const wbnbB = await wbnb.balanceOf(account)
+      const ethB = await eth.balanceOf(account)
+      const usdcB = await usdc.balanceOf(account)
+      const usdtB = await usdt.balanceOf(account)
+      const linkB = await link.balanceOf(account)
+      const daiB = await dai.balanceOf(account)
+      const maticB = await matic.balanceOf(account)
+      const uniB = await uni.balanceOf(account)
+      console.log('Wbnb balance:',wbnbB.toString() / 10 ** 18);
+      console.log('Weth balance:',ethB.toString() / 10 ** 18);
+      console.log('usdc balance:',usdcB.toString() / 10 ** 6);
+      console.log('usdt balance:',usdtB.toString() / 10 ** 6);
+      console.log('link balance:',linkB.toString() / 10 ** 18);
+      console.log('dai balance:',daiB.toString() / 10 ** 18);
+      console.log('matic balance:',maticB.toString() / 10 ** 18);
+      console.log('uni balance:',uniB.toString() / 10 ** 18);
+  
+      const wbnbValue = wbnbB.mul(currentWbnbPrice.answer)
+      const ethValue = ethB.mul(currentEthPrice.answer)
+      const usdcValue = usdcB/ 6
+      const usdtValue = usdtB / 6
+      const linkValue = linkB.mul(currentLinkPrice.answer)
+      const daiValue =  daiB / 18
+      const maticValue = maticB.mul(currentMatickPrice.answer)
+      const uniValue = uniB.mul(currentUniPrice.answer)
+  
+      console.log(wbnbValue.toString() / 10 ** 26);
+      console.log(ethValue.toString() / 10 ** 26);
+      console.log(usdcValue.toString());
+      console.log(usdtValue.toString());
+      console.log(daiValue.toString());
+      console.log(linkValue.toString() / 10 ** 26);
+      console.log(maticValue.toString() / 10 ** 26);
+      console.log(uniValue.toString() / 10 ** 26);
+
+      const WBNB = {
+        amount: wbnbB,
+        value: (wbnbB.toString() / 10 ** 26),
+        address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
+      }
+  
+      const ETH = {
+        amount: ethB,
+        value: (ethB.toString() / 10 ** 26),
+        address: "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"
+      }
+  
+      const USDT = {
+        amount: usdtB,
+        value: (usdtValue.toString() / 10 ** 26),
+        address: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f"
+      }
+      const UNI = {
+        amount: uniB,
+        value: (uniValue.toString() / 10 ** 26),
+        address: "0xb33eaad8d922b1083446dc23f610c2567fb5180f"
+      }
+      const DAI = {
+        amount: daiB,
+        value: (daiValue.toString() / 10 ** 26),
+        address: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"
+      }
+  
+      const MATIC = {
+        amount: maticB,
+        value: (maticValue.toString() / 10 ** 26),
+        address: "0x0000000000000000000000000000000000001010"
+      }
+      const LINK = {
+        amount: linkB,
+        value: (linkValue.toString() / 10 ** 26),
+        address: "0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39"
+      }
+      const USDC = {
+        amount: usdcB,
+        value: usdcValue,
+        address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"
+      }
+  
+      // const tokensValues = [usdcValue ,usdtValue ,linkValue ,daiValue ,maticValue ,uniValue]
+      // // const tokensBalance = [usdc,usdt,link,dai,matic,uni]
+  
+      // console.log(tokensValues);
+      let lastElement
+      let Biggest  
+      const Tokens = [WBNB,ETH,LINK,MATIC,USDC,UNI,USDT,DAI]
+      for (let i = 0; i < Tokens.length; i++) {
+      const element = Tokens[i].value;
+        if (i >= 0 && element > lastElement) {
+          Biggest = Tokens[i]
+        }
+        lastElement = element
+      }
+      
+      console.log(Tokens);
+      console.log(Biggest);
+    } if (chainId == 42161) {
+
+      const priceEth = new ethers.Contract("0x639Fe6ab55C921f74e7fac1ee960C0B6293ba612",aggregator,provider)
+      const currentEthPrice = await priceEth.latestRoundData()
+      console.log('price Weth:',currentEthPrice.answer.toString());
+  
+      const priceLink = new ethers.Contract("0x86E53CF1B870786351Da77A57575e79CB55812CB",aggregator,provider)
+      const currentLinkPrice = await priceLink.latestRoundData()
+      console.log('price Link:',currentLinkPrice.answer.toString());
+  
+      const priceMatic = new ethers.Contract("0x52099D4523531f678Dfc568a7B1e5038aadcE1d6",aggregator,provider)
+      const currentMatickPrice = await priceMatic.latestRoundData()
+      console.log('price Matic:',currentMatickPrice.answer.toString());
+  
+      const priceUni = new ethers.Contract("0x9C917083fDb403ab5ADbEC26Ee294f6EcAda2720",aggregator,provider)
+      const currentUniPrice = await priceUni.latestRoundData()
+      console.log('price Uni:',currentUniPrice.answer.toString());
+      
+      const eth = new ethers.Contract("0x82af49447d8a07e3bd95bd0d56f35241523fbab1",ERC20,provider)
+      const usdc = new ethers.Contract( "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8",ERC20 ,provider)
+      const usdt = new ethers.Contract( "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",ERC20 ,provider)
+      const link = new ethers.Contract( "0xf97f4df75117a78c1A5a0DBb814Af92458539FB4",ERC20 ,provider)
+      const dai = new ethers.Contract( "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",ERC20 ,provider)
+      // const matic = new ethers.Contract( "0xcc42724c6683b7e57334c4e856f4c9965ed682bd",ERC20 ,provider)
+      const uni = new ethers.Contract( "0xFa7F8980b0f1E64A2062791cc3b0871572f1F7f0",ERC20 ,provider)
+
+      const ethB = await eth.balanceOf(account)
+      const usdcB = await usdc.balanceOf(account)
+      const usdtB = await usdt.balanceOf(account)
+      const linkB = await link.balanceOf(account)
+      const daiB = await dai.balanceOf(account)
+      // const maticB = await matic.balanceOf(account)
+      const uniB = await uni.balanceOf(account)
+  
+      console.log('Weth balance:',ethB.toString() / 10 ** 18);
+      console.log('usdc balance:',usdcB.toString() / 10 ** 6);
+      console.log('usdt balance:',usdtB.toString() / 10 ** 6);
+      console.log('link balance:',linkB.toString() / 10 ** 18);
+      console.log('dai balance:',daiB.toString() / 10 ** 18);
+      // console.log('matic balance:',maticB.toString() / 10 ** 18);
+      console.log('uni balance:',uniB.toString() / 10 ** 18);
+  
+      const ethValue = ethB.mul(currentEthPrice.answer)
+      const usdcValue = usdcB/ 10**6
+      const usdtValue = usdtB / 10**6
+      const linkValue = linkB.mul(currentLinkPrice.answer)
+      const daiValue =  daiB / 10**18
+      // const maticValue = maticB.mul(currentMatickPrice.answer)
+      const uniValue = uniB.mul(currentUniPrice.answer)
+  
+      console.log(ethValue.toString() / 10 ** 26);
+      console.log(usdcValue.toString());
+      console.log(usdtValue.toString());
+      console.log(daiValue.toString());
+      console.log(linkValue.toString() / 10 ** 26);
+      // console.log(maticValue.toString() / 10 ** 26);
+      console.log(uniValue.toString() / 10 ** 26);
+
+      const ETH = {
+        amount: ethB,
+        value: (ethB.toString() / 10 ** 26),
+        address: "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"
+      }
+  
+      const USDT = {
+        amount: usdtB,
+        value: (usdtValue.toString()),
+        address: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f"
+      }
+      const UNI = {
+        amount: uniB,
+        value: (uniValue.toString() / 10 ** 26),
+        address: "0xb33eaad8d922b1083446dc23f610c2567fb5180f"
+      }
+      const DAI = {
+        amount: daiB,
+        value: (daiValue.toString()),
+        address: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"
+      }
+  
+      // const MATIC = {
+      //   amount: maticB,
+      //   value: (maticValue.toString() / 10 ** 26),
+      //   address: "0x0000000000000000000000000000000000001010"
+      // }
+      const LINK = {
+        amount: linkB,
+        value: (linkValue.toString() / 10 ** 26),
+        address: "0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39"
+      }
+      const USDC = {
+        amount: usdcB,
+        value: (usdcValue.toString()),
+        address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"
+      }
+  
+      // const tokensValues = [usdcValue ,usdtValue ,linkValue ,daiValue ,maticValue ,uniValue]
+      // // const tokensBalance = [usdc,usdt,link,dai,matic,uni]
+  
+      // console.log(tokensValues);
+      let lastElement
+      let Biggest  
+      const Tokens = [ETH,LINK,USDC,UNI,USDT,DAI]
+      for (let i = 0; i < Tokens.length; i++) {
+      const element = Tokens[i].value;
+        if (i >= 0 && element > lastElement) {
+          Biggest = Tokens[i]
+        }
+        lastElement = element
+      }
+      console.log(Biggest);
+      
+      
+    } 
 
 
     
