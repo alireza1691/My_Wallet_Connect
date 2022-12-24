@@ -392,6 +392,23 @@ export default function Home() {
       const bal = new ethers.Contract( "0xba100000625a3754423978a60c9317c58a424e3D",ERC20 ,provider)
       const cvx = new ethers.Contract( "0x4e3fbd56cd56c3e72c1403e103b45db9da5b9d2b",ERC20 ,provider)
 
+      // eth: 0x8ce9137d39326ad0cd6491fb5cc0cba0e089b6a9 sxp token
+      //  0x6de037ef9ad2725eb40118bb1702ebb27e4aeb24 rndr token
+      //   0xaea46A60368A7bD060eec7DF8CBa43b7EF41Ad85 FET TOKEN
+      //   0x3597bfd533a99c9aa083587b074434e61eb0a258 dent token
+      //   0x43dfc4159d86f3a37a5a4b3d4580b888ad7d4ddd  dodo
+      //  0xfe3e6a25e6b192a42a44ecddcd13796471735acf reef
+      // 0x83e6f1e41cdd28eaceb20cb649155049fac3d5aa pols
+      // 0x4Fabb145d64652a948d72533023f6E7A623C7C53 busd
+      // 0xcb46C550539ac3DB72dc7aF7c89B11c306C727c2 ONT
+      // 0x4691937a7508860f876c9c0a2a617e7d9e945d4b woo
+      //  0xba11d00c5f74255f56a5e366f4f77f5a186d7f55 band
+      // 0x582d872a1b094fc48f5de31d3b73f2d9be47def1 ton
+      // 0x4d224452801aced8b2f0aebe155379bb5d594381 ape
+      // 0x8e870d67f660d95d5be530380d0ec0bd388289e1 psd
+      // 0x0000000000085d4780B73119b644AE5ecd22b376 tusd
+      //    //0xad6caeb32cd2c308980a548bd0bc5aa4306c6c18 band *not sure correct
+
       const ethB = await eth.balanceOf(account)
       const usdcB = await usdc.balanceOf(account)
       const usdtB = await usdt.balanceOf(account)
@@ -604,53 +621,53 @@ export default function Home() {
       const priceWbnb = new ethers.Contract("0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE",aggregator,provider)
       const wbnbPrice = await priceWbnb.latestRoundData()
       const currentWbnbPrice = wbtcPrice.answer/10**8
-      console.log('price Weth:',currentWbnbPrice.answer.toString());
+      console.log('price Wbnb:',currentWbnbPrice);
 
       const priceEth = new ethers.Contract("0x9ef1B8c0E4F7dc8bF5719Ea496883DC6401d5b2e",aggregator,provider)
       const ethPrice = await priceEth.latestRoundData()
       const currentEthPrice = wbtcPrice.answer/10**8
-      console.log('price Weth:',currentEthPrice.answer.toString());
+      console.log('price Weth:',currentEthPrice);
   
       const priceLink = new ethers.Contract("0xca236E327F629f9Fc2c30A4E95775EbF0B89fac8",aggregator,provider)
       const linkPrice = await priceLink.latestRoundData()
       const currentLinkPrice = wbtcPrice.answer/10**8
-      console.log('price Link:',currentLinkPrice.answer.toString());
+      console.log('price Link:',currentLinkPrice);
   
       const priceMatic = new ethers.Contract("0x7CA57b0cA6367191c94C8914d7Df09A57655905f",aggregator,provider)
       const maticPrice = await priceMatic.latestRoundData()
       const currentMaticPrice = maticPrice.answer/10**8
-      console.log('price Matic:',currentMaticPrice.answer.toString());
+      console.log('price Matic:',currentMaticPrice);
   
       const priceUni = new ethers.Contract("0xb57f259E7C24e56a1dA00F66b55A5640d9f9E7e4",aggregator,provider)
       const uniPrice = await priceUni.latestRoundData()
       const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      console.log('price Uni:',currentUniPrice);
 
       const priceAave = new ethers.Contract("0xA8357BF572460fC40f4B0aCacbB2a6A61c89f475",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const aavePrice = await priceAave.latestRoundData()
+      const currentAavePrice = aavePrice.answer/10**8
+      console.log('price AAVE:',currentAavePrice);
 
       const priceAtom = new ethers.Contract("0xb056B7C804297279A9a673289264c17E6Dc6055d",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const atomPrice = await priceAtom.latestRoundData()
+      const currentAtomPrice = atomPrice.answer/10**8
+      cconsole.log('price ATOM:',currentAtomPrice);
       
       const priceBand = new ethers.Contract("0xC78b99Ae87fF43535b0C782128DB3cB49c74A4d3",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
-      //0xad6caeb32cd2c308980a548bd0bc5aa4306c6c18
+      const bandPrice = await priceBand.latestRoundData()
+      const currentBandPrice = bandPrice.answer/10**8
+      console.log('price BAND:',currentBandPrice);
+   
 
       const priceCake = new ethers.Contract("0xB6064eD41d4f67e353768aA239cA86f4F73665a1",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const cakePrice = await priceCake.latestRoundData()
+      const currentCakePrice = cakePrice.answer/10**8
+      console.log('price CAKE:',currentCakePrice);
 
       const priceComp = new ethers.Contract("0x0Db8945f9aEf5651fa5bd52314C5aAe78DfDe540",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const compPrice = await priceUni.latestRoundData()
+      const currentCompPrice = uniPrice.answer/10**8
+      console.log('price COMP:',aavePrice);
 
       // const priceCrv = new ethers.Contract("0x2e1C3b6Fcae47b20Dd343D9354F7B1140a1E6B27",aggregator,provider)
       // const uniPrice = await priceUni.latestRoundData()
@@ -658,124 +675,131 @@ export default function Home() {
       // console.log('price Uni:',currentUniPrice.answer.toString());
 
       const priceDoge = new ethers.Contract("0x3AB0A0d137D4F946fBB19eecc6e92E64660231C8",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const dogePrice = await priceDoge.latestRoundData()
+      const currentDogePrice = dogePrice.answer/10**8
+      console.log('price DOGE:',currentDogePrice);
 
       const priceDodo = new ethers.Contract("0x87701B15C08687341c2a847ca44eCfBc8d7873E1",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const dodoPrice = await priceDodo.latestRoundData()
+      const currentDodoPrice = dodoPrice.answer/10**8
+      console.log('price DODO:',currentDodoPrice);
 
       const priceDot = new ethers.Contract("0xC333eb0086309a16aa7c8308DfD32c8BBA0a2592",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const dotPrice = await priceDot.latestRoundData()
+      const currentDotPrice = dotPrice.answer/10**8
+      console.log('price DOT:',currentDotPrice);
 
       const priceFil = new ethers.Contract("0xE5dbFD9003bFf9dF5feB2f4F445Ca00fb121fb83",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const filPrice = await priceFil.latestRoundData()
+      const currentFilPrice = filPrice.answer/10**8
+      console.log('price FIL:',currentFilPrice);
 
       const priceFet = new ethers.Contract("0x657e700c66C48c135c4A29c4292908DbdA7aa280",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const fetPrice = await priceFet.latestRoundData()
+      const currentFetPrice = fetPrice.answer/10**8
+      console.log('price FET:',currentFetPrice);
 
       const priceFtm = new ethers.Contract("0xe2A47e87C0f4134c8D06A41975F6860468b2F925",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const ftmPrice = await priceFtm.latestRoundData()
+      const currentFtmPrice = ftmPrice.answer/10**8
+      console.log('price FTM:',currentFtmPrice);
 
       const priceFxs = new ethers.Contract("0x657e700c66C48c135c4A29c4292908DbdA7aa280",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const fxsPrice = await priceFxs.latestRoundData()
+      const currentFxsPrice = fxsPrice.answer/10**8
+      console.log('price FXS:',currentFxsPrice);
 
       const priceGmt = new ethers.Contract("0x8b0D36ae4CF8e277773A7ba5F35c09Edb144241b",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const gmtPrice = await priceGmt.latestRoundData()
+      const currentGmtPrice = gmtPrice.answer/10**8
+      console.log('price GMT:',currentGmtPrice);
 
       const priceNear = new ethers.Contract("0x0Fe4D87883005fCAFaF56B81d09473D9A29dCDC3",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const nearPrice = await priceNear.latestRoundData()
+      const currentNearPrice = nearPrice.answer/10**8
+      console.log('price NEAR:',currentNearPrice);
 
       const priceOnt = new ethers.Contract("0x657e700c66C48c135c4A29c4292908DbdA7aa280",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const ontPrice = await priceOnt.latestRoundData()
+      const currentOntPrice = ontPrice.answer/10**8
+      console.log('price ONT:',currentOntPrice);
 
       const priceReef = new ethers.Contract("0x46f13472A4d4FeC9E07E8A00eE52f4Fa77810736",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const reefPrice = await priceReef.latestRoundData()
+      const currentReefPrice = reefPrice.answer/10**8
+      console.log('price REEF:',currentReefPrice);
 
       const priceSxp = new ethers.Contract("0xE188A9875af525d25334d75F3327863B2b8cd0F1",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const sxpPrice = await priceSxp.latestRoundData()
+      const currentSxpPrice = sxpPrice.answer/10**8
+      console.log('price SXP:',currentSxpPrice);
 
 
       const priceSushi = new ethers.Contract("0xa679C72a97B654CFfF58aB704de3BA15Cde89B07",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const sushiPrice = await priceSushi.latestRoundData()
+      const currentSushiPrice = sushiPrice.answer/10**8
+      console.log('price SUSHI:',currentSushiPrice);
 
 
       const priceTwt = new ethers.Contract("0x7E728dFA6bCa9023d9aBeE759fDF56BEAb8aC7aD",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const twtPrice = await priceTwt.latestRoundData()
+      const currentTwtPrice = twtPrice.answer/10**8
+      console.log('price TWT:',currentTwtPrice);
 
       const priceWin = new ethers.Contract("0x9e7377E194E41d63795907c92c3EB351a2eb0233",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const winPrice = await priceWin.latestRoundData()
+      const currentWinPrice = winPrice.answer/10**8
+      console.log('price WIN:',currentWinPrice);
 
       const priceXtz = new ethers.Contract("0x9A18137ADCF7b05f033ad26968Ed5a9cf0Bf8E6b",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const xtzPrice = await priceXtz.latestRoundData()
+      const currentXtzPrice = xtzPrice.answer/10**8
+      console.log('price XTZ:',currentXtzPrice);
 
       const priceYfi = new ethers.Contract("0xD7eAa5Bf3013A96e3d515c055Dbd98DbdC8c620D",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const yfiPrice = await priceYfi.latestRoundData()
+      const currentYfiPrice = yfiPrice.answer/10**8
+      console.log('price YFI:',currentYfiPrice);
 
       const priceVet = new ethers.Contract("0x9f1fD2cEf7b226D555A747DA0411F93c5fe74e13",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const vetPrice = await priceVet.latestRoundData()
+      const currentvETPrice = vetPrice.answer/10**8
+      console.log('price VET:',currentvETPrice);
 
       const priceWoo = new ethers.Contract("0x02Bfe714e78E2Ad1bb1C2beE93eC8dc5423B66d4",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const wooPrice = await priceWoo.latestRoundData()
+      const currentWooPrice = wooPrice.answer/10**8
+      console.log('price WOO:',currentWooPrice);
 
       const priceAxs = new ethers.Contract("0x7B49524ee5740c99435f52d731dFC94082fE61Ab",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const axsPrice = await priceAxs.latestRoundData()
+      const currentAxsPrice = axsPrice.answer/10**8
+      console.log('price AXS:',currentAxsPrice);
 
       
       const priceAda = new ethers.Contract("0xa767f745331D267c7751297D982b050c93985627",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const adaPrice = await priceAda.latestRoundData()
+      const currentAdaPrice = adaPrice.answer/10**8
+      console.log('price ADA:',currentAdaPrice);
       
 
       const priceTrx = new ethers.Contract("0xF4C5e535756D11994fCBB12Ba8adD0192D9b88be",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const trxPrice = await priceTrx.latestRoundData()
+      const currentTrxPrice = trxPrice.answer/10**8
+      console.log('price TRX:',currentTrxPrice);
       
 
       const priceLtc = new ethers.Contract("0x74E72F37A8c415c8f1a98Ed42E78Ff997435791D",aggregator,provider)
-      const uniPrice = await priceUni.latestRoundData()
-      const currentUniPrice = uniPrice.answer/10**8
-      console.log('price Uni:',currentUniPrice.answer.toString());
+      const ltcPrice = await priceLtc.latestRoundData()
+      const currentLtcPrice = ltcPrice.answer/10**8
+      console.log('price LTC:',currentLtcPrice);
+      
+
+      const priceAvax = new ethers.Contract("0x5974855ce31EE8E1fff2e76591CbF83D7110F151",aggregator,provider)
+      const avaxPrice = await priceAvax.latestRoundData()
+      const currentAvaxPrice = avaxPrice.answer/10**8
+      console.log('price AVAX:',currentAvaxPrice);
+
 
 
 
@@ -819,27 +843,20 @@ export default function Home() {
       const ada = new ethers.Contract( "0x3ee2200efb3400fabb9aacf31297cbdd1d435d47",ERC20 ,provider)// 
       const trx = new ethers.Contract( "0x85eac5ac2f758618dfa09bdbe0cf174e7d574d5b",ERC20 ,provider)// 
       const ltc = new ethers.Contract( "0x4338665cbb7b2485a8855a139b75d5e34ab0db94",ERC20 ,provider)//
+      const avax = new ethers.Contract( "0x1ce0c2827e2ef14d5c4f29a091d735a204794041",ERC20 ,provider)//
+      const ton = new ethers.Contract( "0x76a797a59ba2c17726896976b7b3747bfd1d220f",ERC20 ,provider)// price : 1.5
+      const usp = new ethers.Contract( "0xb7f8cd00c5a06c0537e2abff0b58033d02e5e094",ERC20 ,provider)// price : 1.0 pax dollar
+      const tusd = new ethers.Contract( "0x14016e85a25aeb13065688cafb43044c2ef86784",ERC20 ,provider)// price : 1.0 tusd
       
       
-      // eth: 0x8ce9137d39326ad0cd6491fb5cc0cba0e089b6a9 sxp token
-      //  0x6de037ef9ad2725eb40118bb1702ebb27e4aeb24 rndr token
-      //   0xaea46A60368A7bD060eec7DF8CBa43b7EF41Ad85 FET TOKEN
-      //   0x3597bfd533a99c9aa083587b074434e61eb0a258 dent token
-      //   0x43dfc4159d86f3a37a5a4b3d4580b888ad7d4ddd  dodo
-      //  0xfe3e6a25e6b192a42a44ecddcd13796471735acf reef
-      // 0x83e6f1e41cdd28eaceb20cb649155049fac3d5aa pols
-      // 0x4Fabb145d64652a948d72533023f6E7A623C7C53 busd
-      // 0xcb46C550539ac3DB72dc7aF7c89B11c306C727c2 ONT
-      // 0x4691937a7508860f876c9c0a2a617e7d9e945d4b woo
-      //  0xba11d00c5f74255f56a5e366f4f77f5a186d7f55 band
-      //
+      
       // MATIC:
       //  0xD4814770065F634003A8d8D70B4743E0C3f334ad ONT
       //  0x9C9e5fD8bbc25984B178FdCE6117Defa39d2db39 busd polygon
       //  
       // 0x1B815d120B3eF02039Ee11dC2d33DE7aA4a8C603 woo
       //
-     
+      const wbtcB = await wbnb.balanceOf(account)
       const wbnbB = await wbnb.balanceOf(account)
       const ethB = await eth.balanceOf(account)
       const usdcB = await usdc.balanceOf(account)
@@ -848,6 +865,42 @@ export default function Home() {
       const daiB = await dai.balanceOf(account)
       const maticB = await matic.balanceOf(account)
       const uniB = await uni.balanceOf(account)
+      const aaveB = await aave.balanceOf(account)
+      const atomB = await atom.balanceOf(account)
+      const bandB = await band.balanceOf(account)
+      const cakeB = await cake.balanceOf(account)
+      const compB = await comp.balanceOf(account)
+      const dogeB = await doge.balanceOf(account)
+      const dodoB = await dodo.balanceOf(account)
+      const dotB = await dot.balanceOf(account)
+      const filB = await fil.balanceOf(account)
+      const fetB = await fet.balanceOf(account)
+      const ftmB = await ftm.balanceOf(account)
+      const fxsB = await fxs.balanceOf(account)
+      const gmtB = await gmt.balanceOf(account)
+      const nearB = await near.balanceOf(account)
+      const ontB = await ont.balanceOf(account)
+      const reefB = await reef.balanceOf(account)
+      const sxpB = await sxp.balanceOf(account)
+      const sushiB = await sushi.balanceOf(account)
+      const twtB = await twt.balanceOf(account)
+      const winB = await win.balanceOf(account)
+      const xtzB = await xtz.balanceOf(account)
+      const yfiB = await yfi.balanceOf(account)
+      const vetB = await vet.balanceOf(account)
+      const wooB = await woo.balanceOf(account)
+      const axsB = await axs.balanceOf(account)
+      const busdB = await busd.balanceOf(account)
+      const sfpB = await sfp.balanceOf(account)
+      const adaB = await ada.balanceOf(account)
+      const trxB = await trx.balanceOf(account)
+      const ltcB = await ltc.balanceOf(account)
+      const avaxB = await avax.balanceOf(account)
+      const tonB = await ton.balanceOf(account)
+      const uspB = await usp.balanceOf(account)
+      const tusdB = await tusd.balanceOf(account)
+ 
+
       console.log('Wbnb balance:',wbnbB.toString() / 10 ** 18);
       console.log('Weth balance:',ethB.toString() / 10 ** 18);
       console.log('usdc balance:',usdcB.toString() / 10 ** 6);
@@ -857,23 +910,94 @@ export default function Home() {
       console.log('matic balance:',maticB.toString() / 10 ** 18);
       console.log('uni balance:',uniB.toString() / 10 ** 18);
   
-      const wbnbValue = wbnbB.mul(currentWbnbPrice.answer)
-      const ethValue = ethB.mul(currentEthPrice.answer)
-      const usdcValue = usdcB/ 6
-      const usdtValue = usdtB / 6
-      const linkValue = linkB.mul(currentLinkPrice.answer)
-      const daiValue =  daiB / 18
-      const maticValue = maticB.mul(currentMaticPrice.answer)
-      const uniValue = uniB.mul(currentUniPrice.answer)
-  
-      console.log(wbnbValue.toString() / 10 ** 26);
-      console.log(ethValue.toString() / 10 ** 26);
-      console.log(usdcValue.toString());
-      console.log(usdtValue.toString());
-      console.log(daiValue.toString());
-      console.log(linkValue.toString() / 10 ** 26);
-      console.log(maticValue.toString() / 10 ** 26);
-      console.log(uniValue.toString() / 10 ** 26);
+      const wbtcValue = (wbtcB*currentWbtcPrice) / 10**18
+      const wbnbValue = (wbnbB*currentWbnbPrice) / 10**18
+      const ethValue = (ethB*currentEthPrice.answer) / 10**18
+      const usdcValue = usdcB/ 10**6
+      const usdtValue = usdtB / 10**6
+      const linkValue = (linkB*currentLinkPrice.answer) / 10**18
+      const daiValue =  daiB / 10**18
+      const maticValue = (maticB*currentMaticPrice.answer) / 10**18
+      const uniValue = (uniB*currentUniPrice.answer) / 10**18
+      const aaveValue = (aaveB*currentUniPrice.answer) / 10**18
+      const atomValue = (atomB*currentUniPrice.answer) / 10**18
+      const bandValue = (bandB*currentUniPrice.answer) / 10**18
+      const cakeValue = (cakeB*currentUniPrice.answer) / 10**18
+      const compValue = (compB*currentUniPrice.answer) / 10**18
+      const dogeValue = (dogeB*currentUniPrice.answer) / 10**18
+      const dodoValue = (dodoB*currentUniPrice.answer) / 10**18
+      const dotValue = (dotB*currentUniPrice.answer) / 10**18
+      const filValue = (filB*currentUniPrice.answer) / 10**18
+      const fetValue = (fetB*currentUniPrice.answer) / 10**18
+      const ftmValue = (ftmB*currentUniPrice.answer) / 10**18
+      const fxsValue = (fxsB*currentUniPrice.answer) / 10**18
+      const gmtValue = (gmtB*currentUniPrice.answer) / 10**18
+      const nearValue = (nearB*currentUniPrice.answer) / 10**18
+      const ontValue = (ontB*currentUniPrice.answer) / 10**18
+      const reefValue = (reefB*currentUniPrice.answer) / 10**18
+      const sxpValue = (sxpB*currentUniPrice.answer) / 10**18
+      const sushiValue = (sushiB*currentUniPrice.answer) / 10**18
+      const twtValue = (twtB*currentUniPrice.answer) / 10**18
+      const winValue = (winB*currentUniPrice.answer) / 10**18
+      const xtzValue = (xtzB*currentUniPrice.answer) / 10**18
+      const yfiValue = (yfiB*currentUniPrice.answer) / 10**18
+      const vetValue = (vetB*currentUniPrice.answer) / 10**18
+      const wooValue = (wooB*currentUniPrice.answer) / 10**18
+      const axsValue = (axsB*currentUniPrice.answer) / 10**18
+      const busdValue = (busdB) / 10**18
+      const sfpValue = (sfpB*currentUniPrice.answer) / 10**18
+      const adaValue = (adaB*currentUniPrice.answer) / 10**18
+      const trxValue = (trxB*currentUniPrice.answer) / 10**18
+      const ltcValue = (ltcB*currentUniPrice.answer) / 10**18
+      const avaxValue = (avaxB*currentUniPrice.answer) / 10**18
+      const tonValue = (tonB*currentUniPrice.answer) / 10**18
+      const uspValue = (uspB) / 10**18
+      const tusdValue = (tusdB) / 10**18
+
+      console.log(wbtcValue);
+      console.log(wbnbValue);
+      console.log(ethValue);
+      console.log(usdcValue);
+      console.log(usdtValue);
+      console.log(daiValue);
+      console.log(linkValue);
+      console.log(maticValue);
+      console.log(uniValue);
+      console.log(aaveValue);
+      console.log(atomValue);
+      console.log(bandValue);
+      console.log(cakeValue);
+      console.log(compValue);
+      console.log(dogeValue);
+      console.log(dodoValue);
+      console.log(dotValue);
+      console.log(filValue);
+      console.log(fetValue);
+      console.log(ftmValue);
+      console.log(fxsValue);
+      console.log(gmtValue);
+      console.log(nearValue);
+      console.log(ontValue);
+      console.log(reefValue);
+      console.log(sxpValue);
+      console.log(sushiValue);
+      console.log(twtValue);
+      console.log(winValue);
+      console.log(xtzValue);
+      console.log(yfiValue);
+      console.log(vetValue);
+      console.log(wooValue);
+      console.log(axsValue);
+      console.log(busdValue);
+      console.log(sfpValue);
+      console.log(adaValue);
+      console.log(trxValue);
+      console.log(ltcValue);
+      console.log(avaxValue);
+      console.log(tonValue);
+      console.log(uspValue);
+      console.log(tusdValue);
+      
 
       const WBNB = {
         amount: wbnbB,
