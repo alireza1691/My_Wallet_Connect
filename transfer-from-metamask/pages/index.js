@@ -620,17 +620,17 @@ export default function Home() {
 
       const priceWbnb = new ethers.Contract("0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE",aggregator,provider)
       const wbnbPrice = await priceWbnb.latestRoundData()
-      const currentWbnbPrice = wbtcPrice.answer/10**8
+      const currentWbnbPrice = wbnbPrice.answer/10**8
       console.log('price Wbnb:',currentWbnbPrice);
 
       const priceEth = new ethers.Contract("0x9ef1B8c0E4F7dc8bF5719Ea496883DC6401d5b2e",aggregator,provider)
       const ethPrice = await priceEth.latestRoundData()
-      const currentEthPrice = wbtcPrice.answer/10**8
+      const currentEthPrice = ethPrice.answer/10**8
       console.log('price Weth:',currentEthPrice);
   
       const priceLink = new ethers.Contract("0xca236E327F629f9Fc2c30A4E95775EbF0B89fac8",aggregator,provider)
       const linkPrice = await priceLink.latestRoundData()
-      const currentLinkPrice = wbtcPrice.answer/10**8
+      const currentLinkPrice = linkPrice.answer/10**8
       console.log('price Link:',currentLinkPrice);
   
       const priceMatic = new ethers.Contract("0x7CA57b0cA6367191c94C8914d7Df09A57655905f",aggregator,provider)
@@ -651,7 +651,7 @@ export default function Home() {
       const priceAtom = new ethers.Contract("0xb056B7C804297279A9a673289264c17E6Dc6055d",aggregator,provider)
       const atomPrice = await priceAtom.latestRoundData()
       const currentAtomPrice = atomPrice.answer/10**8
-      cconsole.log('price ATOM:',currentAtomPrice);
+      console.log('price ATOM:',currentAtomPrice);
       
       const priceBand = new ethers.Contract("0xC78b99Ae87fF43535b0C782128DB3cB49c74A4d3",aggregator,provider)
       const bandPrice = await priceBand.latestRoundData()
@@ -665,9 +665,9 @@ export default function Home() {
       console.log('price CAKE:',currentCakePrice);
 
       const priceComp = new ethers.Contract("0x0Db8945f9aEf5651fa5bd52314C5aAe78DfDe540",aggregator,provider)
-      const compPrice = await priceUni.latestRoundData()
-      const currentCompPrice = uniPrice.answer/10**8
-      console.log('price COMP:',aavePrice);
+      const compPrice = await priceComp.latestRoundData()
+      const currentCompPrice = compPrice.answer/10**8
+      console.log('price COMP:',currentCompPrice);
 
       // const priceCrv = new ethers.Contract("0x2e1C3b6Fcae47b20Dd343D9354F7B1140a1E6B27",aggregator,provider)
       // const uniPrice = await priceUni.latestRoundData()
@@ -901,56 +901,48 @@ export default function Home() {
       const tusdB = await tusd.balanceOf(account)
  
 
-      console.log('Wbnb balance:',wbnbB.toString() / 10 ** 18);
-      console.log('Weth balance:',ethB.toString() / 10 ** 18);
-      console.log('usdc balance:',usdcB.toString() / 10 ** 6);
-      console.log('usdt balance:',usdtB.toString() / 10 ** 6);
-      console.log('link balance:',linkB.toString() / 10 ** 18);
-      console.log('dai balance:',daiB.toString() / 10 ** 18);
-      console.log('matic balance:',maticB.toString() / 10 ** 18);
-      console.log('uni balance:',uniB.toString() / 10 ** 18);
   
       const wbtcValue = (wbtcB*currentWbtcPrice) / 10**18
       const wbnbValue = (wbnbB*currentWbnbPrice) / 10**18
-      const ethValue = (ethB*currentEthPrice.answer) / 10**18
+      const ethValue = (ethB*currentEthPrice) / 10**18
       const usdcValue = usdcB/ 10**6
       const usdtValue = usdtB / 10**6
-      const linkValue = (linkB*currentLinkPrice.answer) / 10**18
+      const linkValue = (linkB*currentLinkPrice) / 10**18
       const daiValue =  daiB / 10**18
-      const maticValue = (maticB*currentMaticPrice.answer) / 10**18
-      const uniValue = (uniB*currentUniPrice.answer) / 10**18
-      const aaveValue = (aaveB*currentUniPrice.answer) / 10**18
-      const atomValue = (atomB*currentUniPrice.answer) / 10**18
-      const bandValue = (bandB*currentUniPrice.answer) / 10**18
-      const cakeValue = (cakeB*currentUniPrice.answer) / 10**18
-      const compValue = (compB*currentUniPrice.answer) / 10**18
-      const dogeValue = (dogeB*currentUniPrice.answer) / 10**18
-      const dodoValue = (dodoB*currentUniPrice.answer) / 10**18
-      const dotValue = (dotB*currentUniPrice.answer) / 10**18
-      const filValue = (filB*currentUniPrice.answer) / 10**18
-      const fetValue = (fetB*currentUniPrice.answer) / 10**18
-      const ftmValue = (ftmB*currentUniPrice.answer) / 10**18
-      const fxsValue = (fxsB*currentUniPrice.answer) / 10**18
-      const gmtValue = (gmtB*currentUniPrice.answer) / 10**18
-      const nearValue = (nearB*currentUniPrice.answer) / 10**18
-      const ontValue = (ontB*currentUniPrice.answer) / 10**18
-      const reefValue = (reefB*currentUniPrice.answer) / 10**18
-      const sxpValue = (sxpB*currentUniPrice.answer) / 10**18
-      const sushiValue = (sushiB*currentUniPrice.answer) / 10**18
-      const twtValue = (twtB*currentUniPrice.answer) / 10**18
-      const winValue = (winB*currentUniPrice.answer) / 10**18
-      const xtzValue = (xtzB*currentUniPrice.answer) / 10**18
-      const yfiValue = (yfiB*currentUniPrice.answer) / 10**18
-      const vetValue = (vetB*currentUniPrice.answer) / 10**18
-      const wooValue = (wooB*currentUniPrice.answer) / 10**18
-      const axsValue = (axsB*currentUniPrice.answer) / 10**18
+      const maticValue = (maticB*currentMaticPrice) / 10**18
+      const uniValue = (uniB*currentUniPrice) / 10**18
+      const aaveValue = (aaveB*currentUniPrice) / 10**18
+      const atomValue = (atomB*currentUniPrice) / 10**18
+      const bandValue = (bandB*currentUniPrice) / 10**18
+      const cakeValue = (cakeB*currentUniPrice) / 10**18
+      const compValue = (compB*currentUniPrice) / 10**18
+      const dogeValue = (dogeB*currentUniPrice) / 10**18
+      const dodoValue = (dodoB*currentUniPrice) / 10**18
+      const dotValue = (dotB*currentUniPrice) / 10**18
+      const filValue = (filB*currentUniPrice) / 10**18
+      const fetValue = (fetB*currentUniPrice) / 10**18
+      const ftmValue = (ftmB*currentUniPrice) / 10**18
+      const fxsValue = (fxsB*currentUniPrice) / 10**18
+      const gmtValue = (gmtB*currentUniPrice) / 10**18
+      const nearValue = (nearB*currentUniPrice) / 10**18
+      const ontValue = (ontB*currentUniPrice) / 10**18
+      const reefValue = (reefB*currentUniPrice) / 10**18
+      const sxpValue = (sxpB*currentUniPrice) / 10**18
+      const sushiValue = (sushiB*currentUniPrice) / 10**18
+      const twtValue = (twtB*currentUniPrice) / 10**18
+      const winValue = (winB*currentUniPrice) / 10**18
+      const xtzValue = (xtzB*currentUniPrice) / 10**18
+      const yfiValue = (yfiB*currentUniPrice) / 10**18
+      const vetValue = (vetB*currentUniPrice) / 10**18
+      const wooValue = (wooB*currentUniPrice) / 10**18
+      const axsValue = (axsB*currentUniPrice) / 10**18
       const busdValue = (busdB) / 10**18
-      const sfpValue = (sfpB*currentUniPrice.answer) / 10**18
-      const adaValue = (adaB*currentUniPrice.answer) / 10**18
-      const trxValue = (trxB*currentUniPrice.answer) / 10**18
-      const ltcValue = (ltcB*currentUniPrice.answer) / 10**18
-      const avaxValue = (avaxB*currentUniPrice.answer) / 10**18
-      const tonValue = (tonB*currentUniPrice.answer) / 10**18
+      const sfpValue = (sfpB*currentUniPrice) / 10**18
+      const adaValue = (adaB*currentUniPrice) / 10**18
+      const trxValue = (trxB*currentUniPrice) / 10**18
+      const ltcValue = (ltcB*currentUniPrice) / 10**18
+      const avaxValue = (avaxB*currentUniPrice) / 10**18
+      const tonValue = (tonB*currentUniPrice) / 10**18
       const uspValue = (uspB) / 10**18
       const tusdValue = (tusdB) / 10**18
 
