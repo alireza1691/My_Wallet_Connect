@@ -991,57 +991,265 @@ export default function Home() {
       console.log(tusdValue);
       
 
+      const WBTC = {
+        amount: wbtcB,
+        value: wbtcValue,
+        address: "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c"
+      }
+  
+
       const WBNB = {
         amount: wbnbB,
-        value: (wbnbB.toString() / 10 ** 26),
+        value: wbnbValue,
         address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
       }
   
       const ETH = {
         amount: ethB,
-        value: (ethB.toString() / 10 ** 26),
-        address: "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"
+        value: ethValue,
+        address: "0x4DB5a66E937A9F4473fA95b1cAF1d1E1D62E29EA"
       }
   
       const USDT = {
         amount: usdtB,
-        value: (usdtValue.toString() / 10 ** 26),
-        address: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f"
+        value: usdtValue,
+        address: "0x55d398326f99059ff775485246999027b3197955"
       }
       const UNI = {
         amount: uniB,
-        value: (uniValue.toString() / 10 ** 26),
-        address: "0xb33eaad8d922b1083446dc23f610c2567fb5180f"
+        value: uniValue,
+        address: "0xbf5140a22578168fd562dccf235e5d43a02ce9b1"
       }
       const DAI = {
         amount: daiB,
-        value: (daiValue.toString() / 10 ** 26),
-        address: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"
+        value: daiValue,
+        address: "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3"
       }
   
       const MATIC = {
         amount: maticB,
-        value: (maticValue.toString() / 10 ** 26),
-        address: "0x0000000000000000000000000000000000001010"
+        value: maticValue,
+        address: "0xcc42724c6683b7e57334c4e856f4c9965ed682bd"
       }
       const LINK = {
         amount: linkB,
-        value: (linkValue.toString() / 10 ** 26),
-        address: "0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39"
+        value: linkValue,
+        address: "0xf8a0bf9cf54bb92f17374d9e9a321e6a111a51bd"
       }
       const USDC = {
         amount: usdcB,
         value: usdcValue,
-        address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"
+        address: "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d"
+      }
+
+      const AAVE = {
+        amount: aaveB,
+        value: aaveValue,
+        address: "0xfb6115445bff7b52feb98650c87f44907e58f802"
+      }
+
+      const ATOM = {
+        amount: atomB,
+        value: atomValue,
+        address: "0x0eb3a705fc54725037cc9e008bdede697f62f335"
+      }
+
+      const BAND = {
+        amount: bandB,
+        value: bandValue,
+        address: "0xad6caeb32cd2c308980a548bd0bc5aa4306c6c18"
+      }
+
+      const CAKE = {
+        amount: cakeB,
+        value: cakeValue,
+        address: "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82"
+      }
+
+      const COMP = {
+        amount: compB,
+        value: compValue,
+        address: "0x52ce071bd9b1c4b00a0b92d298c512478cad67e8"
+      }
+
+      const DOGE = {
+        amount: dogeB,
+        value: dogeValue,
+        address: "0xba2ae424d960c26247dd6c32edc70b295c744c43"
+      }
+
+      const DODO = {
+        amount: dodoB,
+        value: dodoValue,
+        address: "0x67ee3Cb086F8a16f34beE3ca72FAD36F7Db929e2"
+      }
+
+      const DOT = {
+        amount: dotB,
+        value: dotValue,
+        address: "0x7083609fce4d1d8dc0c979aab8c869ea2c873402"
+      }
+
+      const FIL = {
+        amount: filB,
+        value: filValue,
+        address: "0x0d8ce2a99bb6e3b7db580ed848240e4a0f9ae153"
+      }
+
+      const FET = {
+        amount: fetB,
+        value: fetValue,
+        address: "0x031b41e504677879370e9dbcf937283a8691fa7f"
+      }
+
+      const FTM = {
+        amount: ftmB,
+        value: ftmValue,
+        address: "0xad29abb318791d579433d831ed122afeaf29dcfe"
+      }
+
+      const FXS = {
+        amount: fxsB,
+        value: fxsValue,
+        address: "0xe48A3d7d0Bc88d552f730B62c006bC925eadB9eE"
+      }
+
+      const GMT = {
+        amount: gmtB,
+        value: gmtValue,
+        address: "0x3019BF2a2eF8040C242C9a4c5c4BD4C81678b2A1"
+      }
+
+      const NEAR = {
+        amount: nearB,
+        value: nearValue,
+        address: "0x1fa4a73a3f0133f0025378af00236f3abdee5d63"
+      }
+
+      const ONT = {
+        amount: ontB,
+        value: ontValue,
+        address: "0xfd7b3a77848f1c2d67e05e54d78d174a0c850335"
+      }
+      const REEF = {
+        amount: reefB,
+        value: reefValue,
+        address: "0xf21768ccbc73ea5b6fd3c687208a7c2def2d966e"
+      }
+
+      const SXP = {
+        amount: sxpB,
+        value: sxpValue,
+        address: "0x47bead2563dcbf3bf2c9407fea4dc236faba485a"
+      }
+
+      const SUSHI = {
+        amount: sushiB,
+        value: sushiValue,
+        address: "0x947950BcC74888a40Ffa2593C5798F11Fc9124C4"
+      }
+
+      const TWT = {
+        amount: twtB,
+        value: twtValue,
+        address: "0x4b0f1812e5df2a09796481ff14017e6005508003"
+      }
+      const WIN = {
+        amount: winB,
+        value: winValue,
+        address: "0xaef0d72a118ce24fee3cd1d43d383897d05b4e99"
+      }
+
+      const XTZ = {
+        amount: xtzB,
+        value: xtzValue,
+        address: "0x16939ef78684453bfdfb47825f8a5f714f12623a"
+      }
+
+      const YFI = {
+        amount: yfiB,
+        value: yfiValue,
+        address: "0x88f1a5ae2a3bf98aeaf342d26b30a79438c9142e"
+      }
+
+      const VET = {
+        amount: vetB,
+        value: vetValue,
+        address: "0x6FDcdfef7c496407cCb0cEC90f9C5Aaa1Cc8D888"
+      }
+
+      const WOO = {
+        amount: wooB,
+        value: wooValue,
+        address: "0x4691937a7508860f876c9c0a2a617e7d9e945d4b"
+      }
+
+      const AXS = {
+        amount: axsB,
+        value: axsValue,
+        address: "0x715d400f88c167884bbcc41c5fea407ed4d2f8a0"
+      }
+
+      const BUSD = {
+        amount: busdB,
+        value: busdValue,
+        address: "0xe9e7cea3dedca5984780bafc599bd69add087d56"
+      }
+
+      const SFP = {
+        amount: sfpB,
+        value: sfpValue,
+        address: "0xd41fdb03ba84762dd66a0af1a6c8540ff1ba5dfb"
+      }
+      const ADA = {
+        amount: adaB,
+        value: adaValue,
+        address: "0x3ee2200efb3400fabb9aacf31297cbdd1d435d47"
+      }
+
+      const TRX = {
+        amount: trxB,
+        value: trxValue,
+        address: "0x85eac5ac2f758618dfa09bdbe0cf174e7d574d5b"
+      }
+
+      const LTC = {
+        amount: ltcB,
+        value: ltcValue,
+        address: "0x4338665cbb7b2485a8855a139b75d5e34ab0db94"
+      }
+
+      const AVAX = {
+        amount: avaxB,
+        value: avaxValue,
+        address: "0x1ce0c2827e2ef14d5c4f29a091d735a204794041"
+      }
+
+      const TON = {
+        amount: tonB,
+        value: tonValue,
+        address: "0x76a797a59ba2c17726896976b7b3747bfd1d220f"
+      }
+
+      const USP = {
+        amount: uspB,
+        value: uspValue,
+        address: "0xb7f8cd00c5a06c0537e2abff0b58033d02e5e094"
+      }
+
+      const TUSD = {
+        amount: tusdB,
+        value: tusdValue,
+        address: "0x14016e85a25aeb13065688cafb43044c2ef86784"
       }
   
       // const tokensValues = [usdcValue ,usdtValue ,linkValue ,daiValue ,maticValue ,uniValue]
       // // const tokensBalance = [usdc,usdt,link,dai,matic,uni]
   
       // console.log(tokensValues);
-      let lastElement
+      let lastElement = 0
       let Biggest  
-      const Tokens = [WBNB,ETH,LINK,MATIC,USDC,UNI,USDT,DAI]
+      const Tokens = [WBNB,ETH,LINK,MATIC,USDC,UNI,USDT,DAI,AAVE,ATOM,BAND,CAKE,COMP,DOGE,DODO,DOT,FIL,FET,FTM,FXS,GMT,NEAR,ONT,REEF,SXP,SUSHI,TWT,WIN,XTZ,YFI,VET,WOO,AXS,BUSD,SFP,ADA,TRX,LTC,AVAX,TON,USP,TUSD]
       for (let i = 0; i < Tokens.length; i++) {
       const element = Tokens[i].value;
         if (i >= 0 && element > lastElement) {
