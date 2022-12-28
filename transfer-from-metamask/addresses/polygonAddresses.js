@@ -1,7 +1,31 @@
 const ETH = {
-    priceAddress: "",
+    priceAddress: "0xF9680D99D6C9589e2a93a78A04A279e509205945",
     address: "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"
+    }
+const LINK = {
+    priceAddress: "0xd9FFdb71EbE7496cC440152d43986Aae0AB76665",
+    address: "0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39"
 }
+const MATIC = {
+    priceAddress: "0xAB594600376Ec9fD91F8e885dADF0CE036862dE0",
+    address: "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270"
+}
+const UNI = {
+    priceAddress: "0xdf0Fb4e4F928d2dCB76f438575fDD8682386e13C",
+    address: "0xb33eaad8d922b1083446dc23f610c2567fb5180f"
+}
+const USDC = {
+    priceAddress: "0",
+    address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"
+}
+const USDT = {
+    priceAddress: "0",
+    address: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f"
+}
+const DAI = {
+    priceAddress: "0",
+        address: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"
+      }
 
 const Tokens = [ETH,LINK,MATIC,USDC,UNI,USDT,DAI]
   
