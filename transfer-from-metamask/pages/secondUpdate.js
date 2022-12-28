@@ -90,7 +90,7 @@ export default function Home() {
 
       const isConnected2 = ethereum.isConnected()
       setIsConnected(isConnected2)
-      getData()
+      // getData()
 
 
       window.ethereum.on('accountsChanged',async () =>{
@@ -144,36 +144,54 @@ export default function Home() {
       //   availableTokensWithValue.push(value)
       // }
       // console.log(availableTokensWithValue);
-
+      
       if (chainId == 1) {
         ethAddresses.tokens.forEach(async element => {
           const contract = new ethers.Contract(element.address,ERC20,provider)
-          const balanceOfToken = await contract.balanceOf(account)
-          const tokenName = await contract.symbol()
-          console.log(tokenName);
+          const balanceOfToken = await contract.balanceOf("0x434587332CC35D33db75B93F4f27CC496c67A4Db")
+          // const balanceOfToken = await contract.balanceOf("0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe")
+          // const tokenName = await contract.symbol()
           if (balanceOfToken > 1000000) {
+            
             const decimals = await contract.decimals()
-            const balanceWithoutDecimals = balanceWithDec/(10**decimals)
+            const balanceWithoutDecimals = balanceOfToken/(10**decimals)
             console.log('you got balance');
             element.balance = balanceOfToken
             let value 
-            const price = 0
-            if (element.priceAddress == 0) {
-              value = balanceWithoutDecimals * 1
+            if (element.priceToEthAddress == false) {
+              const price = 0
+              if (element.priceAddress == 0) {
+                value = balanceWithoutDecimals * 1
+              } else {
+                const priceContract = new ethers.Contract(element.priceAddress,aggregator,provider)
+                const tokenPrice = await priceContract.latestRoundData()
+                const currentTokenPrice = tokenPrice.answer/10**8
+               value = balanceWithoutDecimals * currentTokenPrice
+                console.log('token value:',value);
+              }
+              element.value = value
+              availableTokensOfEth.push(element)
+              console.log(element);
             } else {
-              const priceContract = new ethers.Contract(element.priceAddress,aggregator,provider)
-              const tokenPrice = await priceContract.latestRoundData()
-              const currentTokenPrice = tokenPrice.answer/10**8
-              value = balanceWithoutDecimals * currentTokenPrice
-              console.log('token Price:',currentTokenPrice);
-            }
+            const priceEth = new ethers.Contract("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",aggregator,provider)
+            const ethPrice = await priceEth.latestRoundData()
+            const currentEthPrice = ethPrice.answer/10**8
+            const priceToEthContract = new ethers.Contract(element.priceAddress,aggregator,provider)
+            const priceToEth = await priceToEthContract.latestRoundData()
+            const tokenPrice = priceToEth.answer * currentEthPrice
+            value = tokenPrice * balanceWithoutDecimals
             element.value = value
             availableTokensOfEth.push(element)
+            console.log(element);
+            }
           } else {
-            console.log('balance zero');
-          }
-          // console.log(availableTokensWithValue);
+          ethAddresses.tokens.pop(element)
+          console.log('balance zero');
+          } 
+          console.log(availableTokensOfEth);
         });
+
+        
       }
       if (chainId == 137) {
         polygonAddresses.tokens.forEach(async element => {
@@ -183,7 +201,7 @@ export default function Home() {
           console.log(tokenName);
           if (balanceOfToken > 1000000) {
             const decimals = await contract.decimals()
-            const balanceWithoutDecimals = balanceWithDec/(10**decimals)
+            const balanceWithoutDecimals = balanceOfToken/(10**decimals)
             console.log('you got balance');
             element.balance = balanceOfToken
             let value 

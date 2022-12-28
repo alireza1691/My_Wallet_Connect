@@ -437,10 +437,10 @@ export default function Home() {
       console.log('price KNC:',currentKncPrice);
 
       const priceOceanToEth = new ethers.Contract("0x9b0FC4bb9981e5333689d69BdBF66351B9861E62",aggregator,provider)
-      const currentOceanToEthPrice = await priceCvx.latestRoundData()
+      const currentOceanToEthPrice = await priceOceanToEth.latestRoundData()
       const oceanPrice = currentOceanToEthPrice.answer * currentEthPrice
-      const currentOceanPrice = cvxPrice/10**18
-      console.log('price OCEAN:',currentCvxPrice);
+      const currentOceanPrice = oceanPrice/10**18
+      console.log('price OCEAN:',currentOceanPrice);
 
       const priceOnt = new ethers.Contract("0xcDa3708C5c2907FCca52BB3f9d3e4c2028b89319",aggregator,provider)
       const ontPrice = await priceOnt.latestRoundData()
@@ -500,9 +500,9 @@ export default function Home() {
       console.log('price SUSHI:',currentSushiPrice);
 
       const priceSpell = new ethers.Contract("0x8c110B94C5f1d347fAcF5E1E938AB2db60E3c9a8",aggregator,provider)
-      const spellPrice = await priceAlcx.latestRoundData()
-      const currentSpellPrice = alcxPrice.answer/10**8
-      console.log('price ALCX:',currentAlcxPrice);
+      const spellPrice = await priceSpell.latestRoundData()
+      const currentSpellPrice = spellPrice.answer/10**8
+      console.log('price ALCX:',currentSpellPrice);
 
       const pricePerp = new ethers.Contract("0x01cE1210Fe8153500F60f7131d63239373D7E26C",aggregator,provider)
       const perpPrice = await pricePerp.latestRoundData()
