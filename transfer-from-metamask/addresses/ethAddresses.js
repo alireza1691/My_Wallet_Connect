@@ -285,6 +285,8 @@ const ETH = {
     address: "0x853d955acef822db058eb8505911ed77f175b99e",
     priceToEthAddress:false
   }
+
+  
 //   const RNDR = {
 //     priceAddress: "",
 //     address: "0x6de037ef9ad2725eb40118bb1702ebb27e4aeb24",

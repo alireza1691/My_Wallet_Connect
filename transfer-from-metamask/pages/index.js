@@ -5,7 +5,7 @@ import {BigNumber, ethers} from 'ethers'
 import { useState, useEffect } from 'react'
 import { aggregator, IERC20, ERC20, GetBalanceAbi, GetBalanceAddress, SenderAbi } from '../constants'
 
-import './addresses'
+// import './addresses'
 // import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
 

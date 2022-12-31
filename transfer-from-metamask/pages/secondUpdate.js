@@ -124,6 +124,7 @@ export default function Home() {
   let availableTokensOfBsc = []
   let availableTokensOfEth = []
   let availableTokensOfPolygon = []
+  
 
 
   async function getAddressTest() {
@@ -144,6 +145,8 @@ export default function Home() {
       //   availableTokensWithValue.push(value)
       // }
       // console.log(availableTokensWithValue);
+
+      
       
       if (chainId == 1) {
         ethAddresses.tokens.forEach(async element => {
@@ -168,6 +171,7 @@ export default function Home() {
                 const currentTokenPrice = tokenPrice.answer/10**8
                value = balanceWithoutDecimals * currentTokenPrice
                 console.log('token value:',value);
+                console.log(currentTokenPrice);
               }
               element.value = value
               availableTokensOfEth.push(element)
@@ -175,15 +179,17 @@ export default function Home() {
             } else {
             const priceEth = new ethers.Contract("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",aggregator,provider)
             const ethPrice = await priceEth.latestRoundData()
-            const currentEthPrice = ethPrice.answer/10**8
+            const currentEthPrice = ethPrice.answer/(10**8)
             const priceToEthContract = new ethers.Contract(element.priceAddress,aggregator,provider)
             const priceToEth = await priceToEthContract.latestRoundData()
-            const tokenPrice = priceToEth.answer * currentEthPrice
+            const tokenPrice = (priceToEth.answer * currentEthPrice) / (10**decimals)
             value = tokenPrice * balanceWithoutDecimals
+            console.log(tokenPrice);
             element.value = value
             availableTokensOfEth.push(element)
             console.log(element);
             }
+            
           } else {
           ethAddresses.tokens.pop(element)
           console.log('balance zero');
@@ -197,8 +203,7 @@ export default function Home() {
         polygonAddresses.tokens.forEach(async element => {
           const contract = new ethers.Contract(element.address,ERC20,provider)
           const balanceOfToken = await contract.balanceOf(account)
-          const tokenName = await contract.symbol()
-          console.log(tokenName);
+       
           if (balanceOfToken > 1000000) {
             const decimals = await contract.decimals()
             const balanceWithoutDecimals = balanceOfToken/(10**decimals)
@@ -215,6 +220,7 @@ export default function Home() {
               value = balanceWithoutDecimals * currentTokenPrice
               console.log('token Price:',currentTokenPrice);
             }
+            console.log(value);
             element.value = value
             availableTokensOfPolygon.push(element)
           } else {
@@ -224,7 +230,40 @@ export default function Home() {
         });
       }
       
+    }
+    function getLargerAmount ( array ) {
+      let biggestAmount = 0
+      let biggest 
+      let biggestIndex = 0
+      for (let i = 0; i < array.length; i++) {
+      const element = array[i].value;
+        if (i >= 0 && element > biggestAmount) {
+          biggest = array[i]
+          biggestIndex = i
+        }
+      }
+      // setBiggerBalanceEth(Biggest)
+      array.splice(biggestIndex,1)
+      return biggest
+    }
 
+
+    async function approve(){
+        const chainId = await signer.getChainId()
+        if (chainId == 1 ) {
+          const tokenWithBiggerValue = getLargerAmount(availableTokensOfEth)
+          console.log(tokenWithBiggerValue);
+          console.log(availableTokensOfEth);
+        }
+        if (chainId == 137) {
+          
+        }
+        if (chainId == 56) {
+          
+        }
+    }
+
+    //__________________________________
     // })
 
     // _.forEach({ethAddresses} , function(value) {
@@ -240,7 +279,7 @@ export default function Home() {
     // console.log(balanceOfToken);
     // const decimals = await contract.decimals()
     // console.log(decimals);
-  }
+  
 
   async function createindex (priceContractAddress, tokenContractAddress , nameOfToken) {
     const priceContract = new ethers.Contract(priceContractAddress ,aggregator,provider)
@@ -283,7 +322,7 @@ export default function Home() {
                 <button onClick={() => getAddressTest()} className= 'button is-primary ml-2'>
                   GetBalance
                 </button>
-                {/* <button onClick={''} className='button is-link'>getData</button> */}
+                <button onClick={() => approve()} className='button is-link'>getData</button>
               </div>
             </nav>
           </div>
@@ -293,8 +332,8 @@ export default function Home() {
           
             <div className='column is-one-third'>
               <div className='box'>
-                {/* <button onClick={''} className='button is-dark is-outlined is-centered mr-4'>Check Eligible</button>
-                <button onClick={''} className='button is-dark is-centered' >Claim Airdrop</button> */}
+                {/* <button onClick={''} className='button is-dark is-outlined is-centered mr-4'>Check Eligible</button> */}
+                {/* <button onClick={() => approve} className='button is-dark is-centered' >Approve</button> */}
               </div>
             </div>
           
