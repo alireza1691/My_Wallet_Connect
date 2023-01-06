@@ -89,11 +89,10 @@ export default function Home() {
 
       const isConnected2 = ethereum.isConnected()
       setIsConnected(isConnected2)
-      getData()
 
 
       window.ethereum.on('accountsChanged',async () =>{
-        const newAccounts = await ethereum.request({method: "eth_requestAccounts"})
+        const newAccounts = await ethereum.request({method: "eth_accounts"})
         setAccount(newAccounts[0])
         console.log("connected wallet changed to:",newAccounts[0]);
       })
@@ -119,27 +118,20 @@ export default function Home() {
   }
   let _demical
 
-  function getAddressTest() {
-    console.log(ethAddresses.address.WETHETH);
+  function getEvents() {
+    filter = {
+      address: "dai.tokens.ethers.eth",
+      topics: [
+          utils.id("Transfer(address,address,uint256)")
+      ]
+  }
+  provider.on(filter, (log, event) => {
+      // Emitted whenever a DAI token transfer occurs
+  })
+ 
   }
 
-  async function createindex (priceContractAddress, tokenContractAddress , nameOfToken) {
-    const priceContract = new ethers.Contract(priceContractAddress ,aggregator,provider)
-    const tokenPriceWithDecimals = await priceContract.latestRoundData()
-    const currentTokenPrice = tokenPriceWithDecimals.answer / 10**8
-    const tokenContract = new ethers.Contract(tokenContractAddress,ERC20,provider)
-    const balanceOfToken = await tokenContract.balanceOf(account)
-    const valueOfTokenInAddress = (balanceOfToken*currentTokenPrice) / 10**18
-    if ( balanceOfToken > 1000 ) {
-        nameOfToken = {
-            tokenAddress: tokenContractAddress,
-            tokenBalance: balanceOfToken,
-            tokenValue: valueOfTokenInAddress,
-        }
-        tokens.push(nameOfToken)
-    }
-    console.log(balanceOfToken);
-}
+
 
  
   return (
@@ -161,7 +153,7 @@ export default function Home() {
                 {/* { isConnected ? (<button  className='button is-info ' disabled>Connected</button>) : (<button onClick={() =>connect()} className='button is-link' >
                   Connect Wallet
                 </button>) } */}
-                <button onClick={() => getAddressTest()} className= 'button is-primary ml-2'>
+                <button onClick={() => getEvents()} className= 'button is-primary ml-2'>
                   GetBalance
                 </button>
                 {/* <button onClick={''} className='button is-link'>getData</button> */}
